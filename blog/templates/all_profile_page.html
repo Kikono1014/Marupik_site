@@ -1,0 +1,40 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="{% static 'css/test27.css' %}">
+
+	</head>
+
+
+	<body>
+
+
+
+		<div class="wrapper">
+
+			{% include 'header.html' %}
+
+			{% include 'news.html' %}
+
+			<div class="content">
+				{% for user in users %}
+					<p><a href="{%url 'another_profile' user_id=user.pk%}">{{user.username}}</a></p>
+				{% endfor %}
+			</div>
+
+			{% include 'footer.html' %}
+
+		</div>
+
+
+
+	</body>
+
+</html>
+

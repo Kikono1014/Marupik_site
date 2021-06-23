@@ -1,0 +1,52 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="{% static 'css/test27.css' %}">
+
+	</head>
+
+
+	<body>
+
+		{% if role == 'Журналист' %}
+
+			<div class="wrapper">
+
+				{% include 'header.html' %}
+
+				{% include 'news.html' %}
+
+				
+					<div class="content">
+						<div class="profile">
+							<form method="POST"  enctype="multipart/form-data" class="add_something" style="margin-top: 10px">
+								{% csrf_token %}
+								
+								{{ news_form.as_p }}
+								
+								<button type="submit" class="button" style="float: right;">Сохранить изменения</button>
+							</form>
+						</div>
+
+					
+					</div>
+
+				{% include 'footer.html' %}
+
+			</div>
+
+		{% else %}
+			{% include 'not_found_page.html' %}
+		{% endif %}
+
+
+	</body>
+
+</html>
+

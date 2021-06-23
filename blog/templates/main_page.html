@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<link rel="stylesheet" href="{% static 'css/test27.css' %}">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	</head>
+
+
+	<body>
+
+
+
+		<div class="wrapper">
+
+			{% include 'header.html' %}
+
+			{% include 'news.html' %}
+
+			<div class="content">
+				<div class="main">
+					<div class="image_div">
+						<img src="{% static 'image/main2.png' %}" width="100%">
+					</div>
+					<h1 class="main_title">Marupik</h1>
+					<div class="description">
+						<p>Марупик это ванильный рп-сервер, на котором вы можете играть вместе с друзьями, строить города, участвовать в различных ивентах и мероприятиях, как локальных, так и общесерверных, а также многое, многое другое, ведь каждый сам для себя делает игру, вы можете быть кем угодно, даже грифером, но помните, полиция тут тоже имеется.</p>
+						<p>Сервер работает на Java и Bedrock версии майнкрафта.</p>
+						<p style="margin-left: 50px;">Java version: 1.16.5 | 1.16.4</p>
+						<p style="margin-left: 50px;">Bedrock version: 1.16.221.01</p>
+						<p style="margin-left: 50px;">Вк: https://vk.com/marupik</p>
+					</div>
+					<div class="links">
+						<a href="https://www.donationalerts.com/r/marupik_donations" target="_blank">Поддержать сервер вашим кошельком.</a>
+						<a style="float: right;" href="https://discord.gg/YANPsvNWd9" target="_blank">Присоединится к дискорд серверую</a>
+					</div>
+				</div>
+			</div>
+
+			{% include 'footer.html' %}
+
+		</div>
+
+
+
+	</body>
+
+</html>

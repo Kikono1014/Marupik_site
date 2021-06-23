@@ -1,0 +1,75 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="{% static 'css/test27.css' %}">
+
+	</head>
+
+
+	<body>
+
+
+
+		<div class="wrapper">
+
+			{% include 'header.html' %}
+
+			<div class="content" style="width: 100%;">
+				{% for news in newses %}
+					<div class = "news">
+						<h1 class="title" style="margin-bottom:30px; ">{{news.title}}</h1>
+						<p class="date">{{news.create_date}}</p>
+						<p class="author">{{news.author}}:</p>
+						{% if news.image %}
+							<div class="img_div">
+								<img src="{{ news.image.url }}" width="100%">
+							</div>
+						{% else %}
+							<h2>Нет картинки</h2>
+						{% endif %}
+						<div class = "news_text">
+							<p>{{news.text|truncatewords:50 }}</p>
+							<a href="{%url 'one_news' news_id=news.pk%}">Подробнее...</a>	
+						</div>
+					</div>
+				{% endfor %}
+
+				<div class="pagination">
+					<ul>
+						<li class="normal">
+							{% if newses.has_previous %}
+								<a href="/marupik/news?page={{ newses.previous_page_number }}"><i class="material-icons" style="font-size: 24px;">chevron_left</i></a>
+							{% endif %}
+						</li>
+						{% for x in paginator.page_range %}
+							<li {% if newses.number == x %}class="active">{% else %} class="normal"> {% endif %}<a href="/marupik/news?page={{ x }}">{{x}}</a></li>
+						{% endfor %}
+						<li class="normal">
+							{% if newses.has_next %}
+								<a href="/marupik/news?page={{ newses.next_page_number }}"><i class="material-icons" style="font-size: 24px;">chevron_right</i></a>
+							{% endif %}
+						</li>
+					</ul>
+				</div>
+			
+
+			</div>
+
+			{% include 'footer.html' %}
+
+		</div>
+
+
+
+	</body>
+
+</html>
+
+
+
