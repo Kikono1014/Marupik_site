@@ -35,6 +35,12 @@ urlpatterns = [
 			path('one_form/<int:form_id>/',views.show_one_form,  name='one_form'),
 			path('add_form/', views.add_form),
 			path('edit_form/<int:form_id>/', views.edit_form,  name='edit_one_form'),
+
+
+
+			path('change_theme/colored_purpule_gold', views.colored_purpule_gold_theme),
+			path('change_theme/dark', views.dark_theme),
+			path('change_theme/light', views.light_theme),
 			
 ]
 

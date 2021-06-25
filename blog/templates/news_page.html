@@ -6,8 +6,7 @@
 <html>
 
 	<head>
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link rel="stylesheet" href="{% static 'css/test27.css' %}">
+		{% include 'pages_head.html' %}
 
 	</head>
 
@@ -35,7 +34,7 @@
 						{% endif %}
 						<div class = "news_text">
 							<p>{{news.text|truncatewords:50 }}</p>
-							<a href="{%url 'one_news' news_id=news.pk%}">Подробнее...</a>	
+							<a href="{%url 'one_news' news_id=news.pk%}">Читать далее...</a>	
 						</div>
 					</div>
 				{% endfor %}

@@ -6,8 +6,7 @@
 <html>
 
 	<head>
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link rel="stylesheet" href="{% static 'css/test27.css' %}">
+		{% include 'pages_head.html' %}
 
 	</head>
 
@@ -41,7 +40,9 @@
 								<div class="image_div" style="width: 30%">
 									<img src="{{form.donation_image.url}}" width="100%">
 								</div>
-								<p>{{ penetration_form.donation_image }}</p>
+								<div class="add_img">
+									<p>{{ penetration_form.donation_image }}</p>
+								</div>
 
 								<p>Если вы имеете токен для бесплатной регистрации - введите его, так же напишите в поле "Где узнали о сервере" ниже, откуда вы заполучили этот токен. Если у вас его нету - не изменяйте поле</p>
 								<p>{{ penetration_form.free_token }}</p>

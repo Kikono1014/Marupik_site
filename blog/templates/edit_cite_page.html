@@ -6,8 +6,7 @@
 <html>
 
 	<head>
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link rel="stylesheet" href="{% static 'css/test27.css' %}">
+		{% include 'pages_head.html' %}
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript" src="{% static 'js/jquery.waterwheelCarousel.js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/Carousel.js' %}"></script>
@@ -54,7 +53,9 @@
 									<img src="{{image}}" width="100%">
 								</div>
 
-								<p>{{ city_form.image }}</p>
+								<div class="add_img">
+									<p>{{ city_form.image }}</p>
+								</div>
 								
 								<p>Название:</p>
 								<p>{{ city_form.title }}</p>
