@@ -1,0 +1,29 @@
+{% load static %}
+
+
+
+
+
+<div class="newses">
+
+	{% for news in newses %}
+		<div class = "news">
+			<p class="date">{{news.create_date}}</p>
+			<p class="author">{{news.author}}:</p>
+			{% if news.image %}
+				<img src="{{ news.image.url }}" width="100%">
+			{% else %}
+				<h2>Нет картинки</h2>
+			{% endif %}
+			<div class = "news_text">
+				<p>{{news.text|truncatewords:12 }}</p>
+				
+				
+				<a href="{%url 'one_news' news_id=news.pk%}">Читать далее...</a>
+				
+			</div>
+		</div>
+	{% endfor %}
+
+</div>
+

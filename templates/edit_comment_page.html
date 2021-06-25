@@ -1,0 +1,134 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	{% include 'pages_head.html' %}
+	
+</head>
+	
+
+<body>
+
+
+<div class = "wrapper">
+	{% include 'header.html' %}
+
+	<div class = "content" style="width: 100%;">
+			
+				<div class = "news">
+					<h1 class="title">{{news.title}}</h1>
+					<p class="date">{{news.create_date}}</p>
+					<p class="author">{{news.author}}:</p>
+					{% if news.image %}
+						<div class="img_div">
+							<img src="{{ news.image.url }}" width="100%">
+						</div>
+					{% else %}
+						<h2>Нет картинки</h2>
+					{% endif %}
+					<div class = "news_text">
+						{% for text in news_text %}
+							<p>{{text}}</p>
+						{% endfor %}
+					</div>
+					{% if news.author == user %}
+						<a class="button" style="float:left; margin-top: 25px; font-size: 17px;" href="{%url 'edit_one_news' news_id=news.pk%}">Редактировать</a>
+					{% endif %}
+				</div>
+				
+				<div class="comments_block">
+
+					<h1 class="title">Коментарии:</h1>
+					
+					<div class="add_comment">
+						<p>Написать новый коментарий:</p>
+						<form class="add_something" method="post">
+							{% csrf_token %}
+							<p>{{ comment_form.body }}</p>
+							<button type="submit" class="button" style="float: right;">Добавить</button>
+						</form>
+					</div>
+
+
+
+					<div class="comment_list">
+						{% for comment in comments %}
+							{% if comment.pk != comment_id %}
+								<div class="comment">
+									<div class="info">
+										<div class="image_div"><img src="{{comment.image}}" width="100%"></div>
+										{% if comment.role == 'Президент' %}
+											<p class="username" style="color: rgb(200, 0, 200)"> {{ comment.name }} </p>
+										{% elif comment.role == 'ФБР' or comment.role == 'Глава ФБР' %}
+											<p class="username" style="color: blue}"> {{ comment.name }} </p>
+										{% elif comment.role == 'Мэр' %}
+											<p class="username" style="color: brown"> {{ comment.name }} </p>
+										{% elif comment.role == 'Журналист' %}
+											<p class="username" style="color: rgb(0, 200, 100)"> {{ comment.name }} </p>
+										{% else %}
+											<p class="username" style="color: black"> {{ comment.name }} </p>
+										{% endif %}
+										<p class="role"> {{ comment.role }} </p>
+									</div>
+									<p class="created"> {{ comment.created }} </p>
+									<div class="text">
+										<p>{{ comment.body }}</p>
+									</div>
+								
+								{% if request.user.username == comment.name %}
+									<div class="dropdown">
+										<i  class="profile material-icons" style="font-size: 50px; ">more_vert</i>
+										<div class="dropdown-content">
+											<a href="{%url 'comment_delete' comment_id=comment.pk news_id=news.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: #e82323;">delete</i></a>
+											<a href="{%url 'comment_edit' comment_id=comment.pk news_id=news.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: black;">create</i></a>
+										</div>
+									</div>
+								{% endif %}
+								
+									
+								</div>
+							{% else %}
+								<form class="edit_comment" method="post">
+									{% csrf_token %}
+									<div class="comment">
+										<div class="info" id="edit_comment">
+											<div class="image_div"><img src="{{comment.image}}" width="100%"></div>
+											{% if comment.role == 'Президент' %}
+												<p class="username" style="color: rgb(200, 0, 200)"> {{ comment.name }} </p>
+											{% elif comment.role == 'ФБР' or comment.role == 'Глава ФБР' %}
+												<p class="username" style="color: blue}"> {{ comment.name }} </p>
+											{% elif comment.role == 'Мэр' %}
+												<p class="username" style="color: brown"> {{ comment.name }} </p>
+											{% elif comment.role == 'Журналист' %}
+												<p class="username" style="color: rgb(0, 200, 100)"> {{ comment.name }} </p>
+											{% else %}
+												<p class="username" style="color: black"> {{ comment.name }} </p>
+											{% endif %}
+											<p class="role"> {{ comment.role }} </p>
+										</div>
+										<p class="created"> {{ comment.created }} </p>
+										<div class="text">
+											<p>{{ edit_comment_form.body }}</p>
+										</div>
+
+										<button type="submit" class="button" style="float: right;">Изменить</button>
+									</div>
+									
+								</form>
+							{% endif %}
+						{% empty %}
+							<p>Здесь нету ни одного комментария</p>
+						{% endfor %}
+					</div>
+
+				</div>
+	</div>
+
+	{% include 'footer.html' %}
+</div>
+
+
+</body>
+</html>

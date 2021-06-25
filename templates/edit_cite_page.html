@@ -1,0 +1,94 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		{% include 'pages_head.html' %}
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="{% static 'js/jquery.waterwheelCarousel.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/Carousel.js' %}"></script>
+
+	</head>
+
+
+	<body>
+		{% if user.username == author or user.username == mayor or user.profile.admin == True %}
+
+
+		<div class="wrapper">
+
+				{% include 'header.html' %}
+
+				
+					<div class="content" style="width: 100%;">
+						<div class="profile">
+							<form method="POST"  enctype="multipart/form-data" class="add_something" style="margin-top: 10px">
+								{% csrf_token %}
+
+
+								<div id="carousel">
+									<a href="#"><img src="{{city.image1.url}}" id="item-1" /></a>
+									<a href="#"><img src="{{city.image2.url}}" id="item-2" /></a>
+									<a href="#"><img src="{{city.image3.url}}" id="item-3" /></a>
+									<a href="#"><img src="{{city.image4.url}}" id="item-4" /></a>
+									<a href="#"><img src="{{city.image5.url}}" id="item-5" /></a>
+								</div>
+
+								<p>Добавить изображение для карусели:</p>
+
+								<div class="add_img">
+									<p>{{ city_form.image1 }}</p>
+									<p>{{ city_form.image2 }}</p>
+									<p>{{ city_form.image3 }}</p>
+									<p>{{ city_form.image4 }}</p>
+									<p>{{ city_form.image5 }}</p>
+								</div>
+
+								<p>Изображение на общей странице городов:</p>
+
+								<div class="image_div" style="width: 30%">
+									<img src="{{image}}" width="100%">
+								</div>
+
+								<div class="add_img">
+									<p>{{ city_form.image }}</p>
+								</div>
+								
+								<p>Название:</p>
+								<p>{{ city_form.title }}</p>
+
+								<p>Описание города, неограничено:</p>
+								<p>{{ city_form.text }}</p>
+
+								<p>Короткое описание города, желательно 300 символов, но потолок 400:</p>
+								<p>{{ city_form.smol_text }}</p>
+
+								<p>Сылка на дискорд города, если поле уже заполнено, то это не значит что оно верное, может быть президент добавил сюда сылку на дс сервера, за неимением другой:</p>
+								<p>{{ city_form.contact_url }}</p>
+
+								<p>Мэр:</p>
+								<p>{{ city_form.mayor }}</p>
+								
+								<button type="submit" class="button" style="float: right;">Сохранить изменения</button>
+							</form>
+						</div>
+
+					
+					</div>
+				
+
+				{% include 'footer.html' %}
+
+			</div>
+		{% else %}
+			{% include 'not_found_page.html' %}
+		{% endif %}
+
+
+	</body>
+
+</html>
+

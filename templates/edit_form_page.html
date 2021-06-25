@@ -1,0 +1,79 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		{% include 'pages_head.html' %}
+
+	</head>
+
+
+	<body>
+
+		{% if form.site_username == request.user.username %}
+
+			<div class="wrapper">
+
+				{% include 'header.html' %}
+
+				{% include 'news.html' %}
+
+				
+					<div class="content">
+						<div class="profile">
+							<form method="POST"  enctype="multipart/form-data" class="add_something" style="margin-top: 50px">
+
+								{% csrf_token %}
+								
+								<p>Ваш ник в майнкрафте, пожалуйста, перепроверяйте, иначе мы не сможем добавить вас в вайтлист сервера:</p>
+								<p>{{ penetration_form.minecraft_nickname }}</p>
+								
+								
+
+								<p>Введите такой же ник, что и в донате, если вы не донатили - не изменяйте поле</p>
+								<p>{{ penetration_form.donation_username }}</p>
+
+								<p>Для большей достоверности вы можете добавить скриншот оплаты, если не хотите - не добавляйте</p>
+								<div class="image_div" style="width: 30%">
+									<img src="{{form.donation_image.url}}" width="100%">
+								</div>
+								<div class="add_img">
+									<p>{{ penetration_form.donation_image }}</p>
+								</div>
+
+								<p>Если вы имеете токен для бесплатной регистрации - введите его, так же напишите в поле "Где узнали о сервере" ниже, откуда вы заполучили этот токен. Если у вас его нету - не изменяйте поле</p>
+								<p>{{ penetration_form.free_token }}</p>
+								
+								<p>Напишите о себе, что вы за человек, чего хотите достич и зачем вы хотите на сервер, если не жилаете роспростронять личную информацию - не изменяйте поле</p>
+								<p>{{ penetration_form.description_yourself }}</p>
+
+								<p>Роскажите о том, как вы узнали о сервере, это поможет нам.</p>
+								<p>{{ penetration_form.how_you_know }}</p>
+								
+								<p>Это обязательное поле, введите сюда способы, которыми мы можем с вами связатся и сообщить о том, что вы приняты, или указать на проблемы в заплнении формы. Желательно дискорд, но можете и другие, где присутствует текстовое общение, можете перечислить несколько. Но знайте, что для игры не в одиночку вы обязаны иметь аккаунт в дискорде.</p>
+								<p>{{ penetration_form.contact }}</p>
+
+								{{profile_form.as_p}}
+								<button type="submit" class="button" style="float: right;">Сохранить изменения</button>
+							</form>
+						</div>
+
+					
+					</div>
+
+				{% include 'footer.html' %}
+
+			</div>
+
+		{% else %}
+			{% include 'not_found_page.html' %}
+		{% endif %}
+
+
+	</body>
+
+</html>
+

@@ -1,0 +1,51 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		{% include 'pages_head.html' %}
+
+	</head>
+
+
+	<body>
+
+		{% if name == request.user.username %}
+
+			<div class="wrapper">
+
+				{% include 'header.html' %}
+
+				{% include 'news.html' %}
+
+				
+					<div class="content">
+						<div class="profile">
+							<form method="POST"  enctype="multipart/form-data" class="add_something" style="margin-top: 150px; width: 100%">
+								{% csrf_token %}
+								
+								{{ news_form.as_p }}
+								<p style="font-size: 50px; margin-top: 150px">Вы уверены что хотите удалить коментарий?</p>
+								<button type="submit" class="button" style="font-size: 50px">Да</button>
+							</form>
+						</div>
+
+					
+					</div>
+
+				{% include 'footer.html' %}
+
+			</div>
+
+		{% else %}
+			{% include 'not_found_page.html' %}
+		{% endif %}
+
+
+	</body>
+
+</html>
+

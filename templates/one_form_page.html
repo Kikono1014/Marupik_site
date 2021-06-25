@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	{% include 'pages_head.html' %}
+
+</head>
+	
+
+<body>
+
+{% if user.profile.admin or user.username == form.site_username %}
+	<div class = "wrapper">
+		{% include 'header.html' %}
+
+		{% include 'news.html' %}
+
+		<div class = "content">
+				
+				<div class = "one_form">
+					<h1 class="title">Форма регистрации игрока {{form.minecraft_nickname}}</h1>
+					<p class="date"> Ждёт c {{form.create_date}}</p>
+
+					<p> Ник в майнкрафте: {{form.minecraft_nickname}}</p>
+					<p> Ник на сайте: {{form.site_username}}</p>
+					<img src="{{form.donation_image.url}}">
+					<p> Ник в донате: {{form.donation_username}}</p>
+					<p> Токен: {{form.free_token}}</p>
+					<p> В дискорде: {{form.contact}}</p>
+
+					<p> Описание:</p>
+					<div class="description">	
+						{% for text in description %}
+							<p>{{text}}</p>
+						{% endfor %}
+					</div>
+					<p>Как {{form.minecraft_nickname}} узнал осервере:</p>
+					<p style="margin-left: 50px;">{{form.how_you_know}}</p>
+
+					{% if user.profile.admin %}
+						<form method="POST"  enctype="multipart/form-data" class="add_something" style="margin-top: 50px">
+							{% csrf_token %}
+
+							<p>Принять: {{penetration_form.status}}</p>
+							<button type="submit" class="button" style="float: right;">Сохранить изменения</button>
+						</form>
+					{% endif %}
+
+					{% if form.site_username == user.username %}
+						<a class="button" style="float:left; margin-top: 25px; font-size: 17px;" href="{%url 'edit_one_form' form_id=form.pk%}">Редактировать</a>
+					{% endif %}
+				</div>
+				
+		</div>
+
+		{% include 'footer.html' %}
+	</div>
+{% else %}
+	{% include 'not_found_page.html' %}
+{% endif %}
+
+</body>
+</html>
