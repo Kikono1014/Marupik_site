@@ -1,2 +1,2 @@
 # Marupik_site
-Site for mineckraft server
+Site for minecraft server
