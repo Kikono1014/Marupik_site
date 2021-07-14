@@ -7,11 +7,21 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-
 from PIL import Image
-import json
+from django.http import JsonResponse
 
-theme = {}
+def api(request):
+	result = {'news':[], 'users':[], "citys":[]}
+	list_news = []
+	obj_news = get_news(request)
+	for i in obj_news:
+		result['news'].append({"title":i.title, "text": i.text, "comments":[]})
+	for i in Profile.objects.all():
+		result['users'].append({"username":i.user.username, "info":i.info, "role":i.role, "isAdmin":i.admin})
+	for i in City.objects.all():
+		result["citys"].append({"title":i.title, "smol_text":i.smol_text, "text":i.text, "author":i.author, "mayor":i.mayor})
+	return(JsonResponse(result))
+
 
 def get_client_ip(request):
 	x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -29,13 +39,11 @@ def get_news(request):
 	return page_obj
 
 def get_style(request):
-
-	global theme
 	img = 'image/logo.png'
-	ip = get_client_ip(request)
-	try:
-		file = theme[str(ip)]
-	except: file = 'css/purple_gold.css'
+	if 'theme' in request.COOKIES:
+		file = request.COOKIES['theme']
+	else: 
+		file = 'css/purple_gold.css'
 	return img, file
 
 
@@ -774,27 +782,23 @@ def edit_form(request, form_id):
 
 
 def colored_purpule_gold_theme(request):
-	global theme
-	ip = get_client_ip(request)
-
 	style_file = 'css/purple_gold.css'
-	theme[str(ip)] = style_file
-
-	return redirect("/marupik/main")
+	
+	response = redirect("/marupik/main")
+	response.set_cookie('theme', style_file)
+	return response
 
 def dark_theme(request):
-	global theme
-	ip = get_client_ip(request)
-
 	style_file = 'css/dark1.css'
-	theme[str(ip)] = style_file
-	return redirect("/marupik/main")
+
+	response = redirect("/marupik/main")
+	response.set_cookie('theme', style_file)
+	return response
 
 def light_theme(request):
-	global theme
-	ip = get_client_ip(request)
-
 	style_file = 'css/light1.css'
-	theme[str(ip)] = style_file
-	return redirect("/marupik/main")
+
+	response = redirect("/marupik/main")
+	response.set_cookie('theme', style_file)
+	return response
 
