@@ -18,40 +18,52 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
-# from django.contrib import messages Оно не используется
 from PIL import Image
 from django.http import JsonResponse
 import json
 
 
-def api(request):
-    if("token" in request.headers):
+def get_info(request):
+    islogin = request.user.is_authenticated  # залогинен ли вользователь
+    header_img, style_file = get_style(request)  # узнаём какая должна быть
+    news = get_news(request)  # достаём новости для сайд бара
+    return(islogin, header_img, style_file, news)
+
+
+def api(request):  # Функция для бота посути
+    if("token" in request.headers):  # Проверка токена
         if(request.headers["Token"] not in ["test"]):
             return(JsonResponse({"error": "403"}))
     else:
         return(JsonResponse({"error": "403"}))
-    if(request.headers["Rtype"] == "get"):
+    if(request.headers["Rtype"] == "get"):  # Бот хочет получить данные?
         result = {'news': [], 'users': [], "citys": [], "error": 200}
         obj_news = get_news(request)
-        for i in obj_news:
+        for i in obj_news:  # Новости
             result['news'].append(
                 {
                     "title": i.title,
                     "text": i.text,
-                    "comments": []  # TODO: Сделать коменты
+                    "comments": [
+                        {
+                            "name": comment.name,
+                            "userid": comment.userid,
+                            "text": comment.body  # Коментарии
+                        } for comment in i.comments.filter(active=True)
+                    ]
                 }
             )
-        for i in Profile.objects.all():
+        for i in Profile.objects.all():  # Профили
             result['users'].append(
                 {
                     "username": i.user.username,
                     "info": i.info,
                     "role": i.role,
                     "isAdmin": i.admin,
-                    "discord": i.discord
+                    # "discord": i.discord
                 }
             )
-        for i in City.objects.all():
+        for i in City.objects.all():  # Города
             result["citys"].append(
                 {
                     "title": i.title,
@@ -62,114 +74,106 @@ def api(request):
                 }
             )
         return(JsonResponse(result))
-    else:
-        if("Add-discord" in request.headers):
+
+    elif(request.headers["Rtype"] == "post"):  # Бот хочет добавить данные?
+        if("Add-discord" in request.headers and False):  # Данные о ДС
+            # Но код отключен тк бд не может хранить дс
             json_data = json.loads(request.headers["Add-discord"])
             username = json_data["username"]
             discord_id = json_data["discord_id"]
             user = User.objects.get(username=username)
             profile = Profile.objects.get(user=user)
-            if(profile is not None):
-                profile.discord = discord_id
+            if(profile is not None):  # Если профиль существет то присваиваем.
+                profile.discord = discord_id  # см models.py 88-89
             else:
                 return(JsonResponse({"error": 404}))
             return(JsonResponse({"error": 200}))
     return(JsonResponse({"error": 404}))
 
 
-def get_client_ip(request):
+def get_client_ip(request):  # берём ip юзера
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
-        return ip
+    return ip
 
 
-def get_news(request):
-    res = News.objects.all()
-    res = res.filter(active=True)
-    res = list(reversed(res))
-    page_obj = [res[0], res[1], res[2]]
-    return page_obj
+def get_news(request):  # достаём список новостей из бд, для сайд бара
+    res = News.objects.all()  # достаём все обьекты новостей
+    res = res.filter(active=True)  # отбрасываем неактивные
+    res = list(reversed(res))  # переворачиваем список, что бы новые шли первее
+    page_obj = [res[0], res[1], res[2]]  # отбераем три новейшие
+    return page_obj  # возвращаем новости для дальнейшего использования
 
 
-def get_style(request):
-    img = 'image/logo.png'
-    if 'theme' in request.COOKIES:
-        file = request.COOKIES['theme']
+def get_style(request):  # изменение темы
+    img = 'image/logo.png'  # расположение логотипа сайта в директории static
+    if('theme' in request.COOKIES):  # если в куки есть тема
+        file = request.COOKIES['theme']  # записываем расположение файла темы
     else:
-        file = 'css/purple_gold.css'
-    return(img, file)
+        file = 'css/purple_gold.css'  # иначе записываем стандартную тему
+    return(img, file)  # возвращаем расположение файлов
 
 
-def show_main(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    if request.method == "GET":
-        news = get_news(request)
+def show_main(request):  # отображение главной страницы
+    islogin, header_img, style_file, news = get_info(request)
 
-        context = {
-            'newses': news,
-            'islogin': islogin,
-            'header_img': header_img,
-            'style_file': style_file
-        }
-        return render(request, 'main_page.html', context)
+    context = {  # контекст для шаблона
+           'newses': news,
+           'islogin': islogin,
+           'header_img': header_img,
+           'style_file': style_file
+          }
+    return render(request, 'main_page.html', context)  # отображение шаблона
 
 
 def show_map(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    if request.method == "GET":
-        news = get_news(request)
-        context = {
-            'newses': news,
-            'islogin': islogin,
-            'header_img': header_img,
-            'style_file': style_file
-        }
-        return render(request, 'map_page.html', context)
+    islogin, header_img, style_file, news = get_info(request)
+    context = {
+        'newses': news,
+        'islogin': islogin,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'map_page.html', context)
 
 
 def show_info(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    if request.method == "GET":
-        news = get_news(request)
-        context = {
-            'newses': news,
-            'islogin': islogin,
-            'header_img': header_img,
-            'style_file': style_file
-        }
-        return render(request, 'info_page.html', context)
+    islogin, header_img, style_file, news = get_info(request)
+    context = {
+        'newses': news,
+        'islogin': islogin,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'info_page.html', context)
 
 
 def show_news(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    if request.method == "GET":
-        res = News.objects.all()
-        res = res.filter(active=True)
-        res = list(reversed(res))
-        paginator = Paginator(res, 3)
-        page_num = request.GET.get('page')
-        news = paginator.get_page(page_num)
+    islogin = request.user.is_authenticated  # залогинен ли вользователь
+    header_img, style_file = get_style(request)  # узнаём какая тема
 
-        context = {
-            'newses': news,
-            'paginator': paginator,
-            'islogin': islogin,
-            'header_img': header_img,
-            'style_file': style_file
-        }
-        return render(request, 'news_page.html', context)
+    res = News.objects.all()
+    res = res.filter(active=True)
+    res = list(reversed(res))
+    paginator = Paginator(res, 3)
+    page_num = request.GET.get('page')
+    news = paginator.get_page(page_num)
+
+    context = {
+        'newses': news,
+        'paginator': paginator,
+        'islogin': islogin,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'news_page.html', context)
 
 
 def show_one_news(request, news_id):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
+    islogin, header_img, style_file, news = get_info(request)
     res = get_object_or_404(News, pk=news_id)
     news_text = res.text.split("\r\n")
     user = request.user.username
@@ -203,8 +207,7 @@ def show_one_news(request, news_id):
 
 
 def delete_comment(request, comment_id, news_id):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
+    islogin, header_img, style_file, news = get_info(request)
     comment_to_delete = get_object_or_404(Comment, id=comment_id)
     name = comment_to_delete.name
     if request.method == 'POST':
@@ -228,8 +231,7 @@ def delete_comment(request, comment_id, news_id):
 
 
 def edit_comment(request, comment_id, news_id):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
+    islogin, header_img, style_file, news = get_info(request)
     res = get_object_or_404(News, pk=news_id)
     news_text = res.text.split("\r\n")
     user = request.user.username
@@ -239,8 +241,9 @@ def edit_comment(request, comment_id, news_id):
     comment_to_edit = get_object_or_404(Comment, id=comment_id)
     if request.method == 'POST':
         edit_comment_form = EditCommentForm(
-                    request.POST, instance=comment_to_edit
-                )
+            request.POST,
+            instance=comment_to_edit
+        )
         if edit_comment_form.is_valid():
             edit_comment_form.save()
             return redirect(f"/marupik/news/{news_id}/")
@@ -267,13 +270,11 @@ def edit_comment(request, comment_id, news_id):
 
 
 def add_news(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
 
     if(request.method == "POST"):
         news_form = Add_nuwsForm(request.POST, request.FILES)
-        if news_form.is_valid():
+        if(news_form.is_valid()):
             new = news_form.save(commit=False)
             new.author = request.user.username
             new.save()
@@ -296,9 +297,7 @@ def add_news(request):
 
 
 def edit_news(request, news_id):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
     res = get_object_or_404(News, pk=news_id)
 
     if(request.method == "POST"):
@@ -327,9 +326,7 @@ def edit_news(request, news_id):
 
 
 def register(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
     err = ''
     if(request.method == "POST"):
         user_form = UserCreationForm(request.POST)
@@ -346,8 +343,8 @@ def register(request):
     error = []
     for i in err:
         res = i.split(".")
-        for j in res:
-            if j == '':
+        for ii in res:
+            if ii == '':
                 error.append(i)
 
     context = {
@@ -367,13 +364,11 @@ def logout_user(request):
 
 
 def login_user(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
     err = ''
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid:
+        if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
@@ -399,9 +394,7 @@ def login_user(request):
 
 
 def upgrade_profile(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
     err = ''
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
@@ -426,9 +419,10 @@ def upgrade_profile(request):
     error = []
     for i in err:
         res = i.split(".")
-        for j in res:
-            if j == '':
+        for ii in res:
+            if ii == '':
                 error.append(i)
+
     user_image = request.user.profile.user_image.url
 
     context = {
@@ -445,77 +439,74 @@ def upgrade_profile(request):
 
 
 def profile(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
-    if request.method == "GET":
-        username = request.user.username
-        user_image = request.user.profile.user_image.path
-        full_info = request.user.profile.info.split("\r\n")
-        role = request.user.profile.role
-        admin = request.user.profile.admin
-        userid = request.user.pk
+    islogin, header_img, style_file, news = get_info(request)
 
-        if username != 'Kikono':
-            user_image = user_image.replace("\\", "/")
-            img = Image.open(user_image)
+    username = request.user.username
+    user_image = request.user.profile.user_image.path
+    full_info = request.user.profile.info.split("\r\n")
+    role = request.user.profile.role
+    admin = request.user.profile.admin
+    userid = request.user.pk
+
+    if username != 'Kikono':
+        user_image = user_image.replace("\\", "/")
+        img = Image.open(user_image)
+        width = img.size[0]
+        height = img.size[1]
+        if width != height:
+            newsize = (width, width)
+            img = img.resize(newsize)
             width = img.size[0]
             height = img.size[1]
-            if width != height:
-                newsize = (width, width)
-                img = img.resize(newsize)
-                width = img.size[0]
-                height = img.size[1]
-                img.save(user_image, format="png")
-        user_image = request.user.profile.user_image.url
+            img.save(user_image, format="png")
 
-        if role == 'Мэр':
-            cities = City.objects.all()
-            cities = cities.filter(active=True)
-            cities = list(reversed(cities))
-            for city in cities:
-                if city.mayor == username:
-                    your_city_name = city.title
-                    your_city_id = city.pk
-        else:
-            your_city_name = None
-            your_city_id = None
+    user_image = request.user.profile.user_image.url
 
-        if(role == 'Президент'):
-            role_color = "rgb(200, 0, 200)"
-        elif role == 'ФБР' or role == 'Глава ФБР':
-            role_color = "blue"
-        elif role == 'Мэр':
-            role_color = "brown"
-        elif role == 'Журналист':
-            role_color = "rgb(0, 200, 100)"
-        elif style_file == 'css/dark1.css':
-            role_color = "white"
-        else:
-            role_color = "black"
+    if(role == 'Мэр'):
+        cities = City.objects.all()
+        cities = cities.filter(active=True)
+        cities = list(reversed(cities))
+        for city in cities:
+            if city.mayor == username:
+                your_city_name = city.title
+                your_city_id = city.pk
+    else:
+        your_city_name = None
+        your_city_id = None
 
-        context = {
-            'newses': news,
-            'islogin': islogin,
-            'user_image': user_image,
-            'username': username,
-            'full_info': full_info,
-            'role': role,
-            'admin': admin,
-            'your_city_id': your_city_id,
-            'your_city_name': your_city_name,
-            'userid': userid,
-            'role_color': role_color,
-            'header_img': header_img,
-            'style_file': style_file
-        }
-        return(render(request, 'profile_page.html', context))
+    if role == 'Президент':
+        role_color = "rgb(200, 0, 200)"
+    elif role == 'ФБР' or role == 'Глава ФБР':
+        role_color = "blue"
+    elif role == 'Мэр':
+        role_color = "brown"
+    elif role == 'Журналист':
+        role_color = "rgb(0, 200, 100)"
+    elif style_file == 'css/dark1.css':
+        role_color = "white"
+    else:
+        role_color = "black"
+
+    context = {
+        'newses': news,
+        'islogin': islogin,
+        'user_image': user_image,
+        'username': username,
+        'full_info': full_info,
+        'role': role,
+        'admin': admin,
+        'your_city_id': your_city_id,
+        'your_city_name': your_city_name,
+        'userid': userid,
+        'role_color': role_color,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'profile_page.html', context)
 
 
 def another_profile(request, user_id):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
 
     user = get_object_or_404(User, pk=user_id)
 
@@ -573,8 +564,8 @@ def another_profile(request, user_id):
 
 
 def delete_user_comment(request, comment_id, user_id):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
+    islogin, header_img, style_file, news = get_info(request)
+
     comment_to_delete = get_object_or_404(UserComment, id=comment_id)
     name = comment_to_delete.name
     if request.method == 'POST':
@@ -598,65 +589,58 @@ def delete_user_comment(request, comment_id, user_id):
 
 
 def all_profile(request):
-    global theme
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
 
     users = User.objects.all()
     context = {
-        'newses': news,
-        'islogin': islogin,
-        'users': users,
-        'header_img': header_img,
-        'style_file': style_file,
-    }
+                'newses': news,
+                'islogin': islogin,
+                'users': users,
+                'header_img': header_img,
+                'style_file': style_file,
+                }
 
-    return(render(request, 'all_profile_page.html', context))
+    return render(request, 'all_profile_page.html', context)
 
 
 def show_cities(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
 
-    if request.method == "GET":
-        city = City.objects.all()
-        city = city.filter(active=True)
-        city = list(reversed(city))
-        paginator = Paginator(city, 4)
-        page_num = request.GET.get('page')
-        cities = paginator.get_page(page_num)
+    city = City.objects.all()
+    city = city.filter(active=True)
+    city = list(reversed(city))
+    paginator = Paginator(city, 4)
+    page_num = request.GET.get('page')
+    cities = paginator.get_page(page_num)
 
-        for city in cities:
-            city_image = city.image.path
+    for city in cities:
+        city_image = city.image.path
 
-            city_image = city_image.replace("\\", "/")
-            img = Image.open(city_image)
+        city_image = city_image.replace("\\", "/")
+        img = Image.open(city_image)
+        width = img.size[0]
+        height = img.size[1]
+        if width != 300 and height != 300:
+            newsize = (300, 300)
+            img = img.resize(newsize)
             width = img.size[0]
             height = img.size[1]
-            if width != 300 and height != 300:
-                newsize = (300, 300)
-                img = img.resize(newsize)
-                width = img.size[0]
-                height = img.size[1]
-                img.save(city_image, format="png")
+            img.save(city_image, format="png")
 
     context = {
-        'newses': news,
-        'cities': cities,
-        'paginator': paginator,
-        'islogin': islogin,
-        'header_img': header_img,
-        'style_file': style_file
-    }
+                'newses': news,
+                'cities': cities,
+                'paginator': paginator,
+                'islogin': islogin,
+                'header_img': header_img,
+                'style_file': style_file
+                }
 
     return render(request, 'cities_page.html', context)
 
 
 def show_one_city(request, city_id):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
+    islogin, header_img, style_file, news = get_info(request)
     city = get_object_or_404(City, pk=city_id)
     text = city.text.split("\r\n")
 
@@ -677,7 +661,7 @@ def show_one_city(request, city_id):
         img = Image.open(city_image)
         width = img.size[0]
         height = img.size[1]
-        if(width != 640 and height != 400):
+        if width != 640 and height != 400:
             newsize = (640, 400)
             img = img.resize(newsize)
             width = img.size[0]
@@ -694,14 +678,11 @@ def show_one_city(request, city_id):
         'header_img': header_img,
         'style_file': style_file
     }
-
     return render(request, 'one_city_page.html', context)
 
 
 def add_city(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
 
     if(request.method == "POST"):
         city_form = Add_citeForm(request.POST, request.FILES)
@@ -715,7 +696,6 @@ def add_city(request):
         city_form = Add_citeForm()
 
     role = request.user.profile.role
-    # user = request.user
 
     context = {
         'newses': news,
@@ -729,8 +709,7 @@ def add_city(request):
 
 
 def edit_city(request, city_id):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
+    islogin, header_img, style_file, news = get_info(request)
     city = get_object_or_404(City, pk=city_id)
 
     if(request.method == "POST"):
@@ -764,17 +743,15 @@ def edit_city(request, city_id):
 
 
 def show_forms(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
 
-    if request.method == "GET":
-        form = Penetration.objects.all()
-        form = form.filter(status=False)
-        paginator = Paginator(form, 9)
-        page_num = request.GET.get('page')
-        forms = paginator.get_page(page_num)
-        user = request.user
+    form = Penetration.objects.all()
+    form = form.filter(status=False)
+    paginator = Paginator(form, 9)
+    page_num = request.GET.get('page')
+    forms = paginator.get_page(page_num)
+
+    user = request.user
 
     context = {
         'newses': news,
@@ -786,13 +763,11 @@ def show_forms(request):
         'style_file': style_file
     }
 
-    return(render(request, 'forms_page.html', context))
+    return render(request, 'forms_page.html', context)
 
 
 def show_one_form(request, form_id):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
     form = get_object_or_404(Penetration, pk=form_id)
     description = form.description_yourself.split("\r\n")
 
@@ -810,22 +785,21 @@ def show_one_form(request, form_id):
 
     user = request.user
     context = {
-        'newses': news,
-        'islogin': islogin,
-        'form': form,
-        'description': description,
-        'user': user,
-        'penetration_form': penetration_form,
-        'header_img': header_img,
-        'style_file': style_file
-    }
+            'newses': news,
+            'islogin': islogin,
+            'form': form,
+            'description': description,
+            'user': user,
+            'penetration_form': penetration_form,
+            'header_img': header_img,
+            'style_file': style_file
+            }
+
     return render(request, 'one_form_page.html', context)
 
 
 def add_form(request):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
-    news = get_news(request)
+    islogin, header_img, style_file, news = get_info(request)
 
     if(request.method == "POST"):
         penetration_form = PenetrationForm(request.POST, request.FILES)
@@ -835,11 +809,12 @@ def add_form(request):
             form.save()
             penetration_form.save()
             return redirect("/marupik/forms")
+
     else:
         penetration_form = PenetrationForm()
 
     role = ''
-    if(islogin):
+    if islogin:
         role = request.user.profile.role
 
     context = {
@@ -854,17 +829,16 @@ def add_form(request):
 
 
 def edit_form(request, form_id):
-    islogin = request.user.is_authenticated
-    header_img, style_file = get_style(request)
+    islogin, header_img, style_file, news = get_info(request)
+
     form = get_object_or_404(Penetration, pk=form_id)
-    news = get_news(request)
 
     if(request.method == "POST"):
         penetration_form = PenetrationForm(
-                    request.POST,
-                    request.FILES,
-                    instance=form
-                )
+            request.POST,
+            request.FILES,
+            instance=form
+        )
         if penetration_form.is_valid():
             form = penetration_form.save(commit=False)
             form.site_username = request.user.username

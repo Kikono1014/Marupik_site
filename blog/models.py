@@ -85,7 +85,8 @@ class Profile(models.Model):
     del(d)
     create_date = models.DateTimeField(default=timezone.now)
     role = models.CharField(max_length=9, choices=ROLES, default=role1)
-    discord = models.CharField(max_length=100)
+    # discord = models.CharField(max_length=100)
+    # Это вызывает ошибку, по понятным причинам, но все же
     admin = models.BooleanField(default=False)
     registered = models.BooleanField(default=False)
 
