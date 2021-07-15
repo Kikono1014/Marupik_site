@@ -23,9 +23,7 @@ from django.http import JsonResponse
 import json
 
 
-# Ичо
-
-def get_info(request):
+def get_info(request):  # Функция для получение информации
     islogin = request.user.is_authenticated  # залогинен ли вользователь
     header_img, style_file = get_style(request)  # узнаём какая должна быть
     news = get_news(request)  # достаём новости для сайд бара
