@@ -9,21 +9,39 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from PIL import Image
 from django.http import JsonResponse
-
-def api(request):
-	result = {'news':[], 'users':[], "citys":[]}
-	list_news = []
-	obj_news = get_news(request)
-	for i in obj_news:
-		result['news'].append({"title":i.title, "text": i.text, "comments":[]})
-	for i in Profile.objects.all():
-		result['users'].append({"username":i.user.username, "info":i.info, "role":i.role, "isAdmin":i.admin})
-	for i in City.objects.all():
-		result["citys"].append({"title":i.title, "smol_text":i.smol_text, "text":i.text, "author":i.author, "mayor":i.mayor})
-	return(JsonResponse(result))
+import json
+# Импор модулей
 
 
-def get_client_ip(request):
+def api(request): # Функция для API
+	if("token" in request.headers): # Если есть токен в заголовках
+		if(request.headers["Token"] not in ["test"]):
+			return(JsonResponse({"error":"403"})) # Если токен не правильный возвращается 403 запрешенно
+	else: return(JsonResponse({"error":"403"})) # Если токена нет в заголовках то так же возвращается 403 запрещенно
+	if(request.headers["Rtype"] == "get"): # Если бот запрашивает данные
+		result = {'news':[], 'users':[], "citys":[], "error":200} # Инициализация result, код ошибки 200 что значит что все хорошо
+		obj_news = get_news(request) # Получается сырые новости
+		for i in obj_news: # Перебором новостей они добавляются в result
+			result['news'].append({"title":i.title, "text": i.text, "comments":[]})
+		for i in Profile.objects.all(): # Профили добавляются в result
+			result['users'].append({"username":i.user.username, "info":i.info, "role":i.role, "isAdmin":i.admin, "discord":i.discord})
+		for i in City.objects.all(): # Города добавляются в result
+			result["citys"].append({"title":i.title, "smol_text":i.smol_text, "text":i.text, "author":i.author, "mayor":i.mayor})
+		return(JsonResponse(result)) # Он отправлятся боту
+	else: # Если бот хочет опубликовать данные
+		if("Add-discord" in request.headers): # Если есть заголовок указывающий на то что бот хочет добавить дискорд пользвателю
+			username = json.loads(request.headers["Add-discord"])["username"] # Получаем имя пользователя из того что отправил бот
+			discord_id = json.loads(request.headers["Add-discord"])["Add-discord"]["discord_id"] # Получаем id в дискорде из того что отправил бот
+			user = User.objects.get(username=username) # Получаем пользователя как обект
+			profile = Profile.objects.get(user=user) # Получаем профиль
+			if(profile is not None): # Если профиль существует
+				profile.discord = discord_id # То добовляем ему айди
+			else: return(JsonResponse({"error":404})) # Если не существует то отправляем 404 не найдено
+			return(JsonResponse({"error":200})) # Код дошел до этого момента то отпровляем 200 успешно
+	return(JsonResponse({"error":404})) # Если нихера не произошло, то 404
+
+
+def get_client_ip(request): # Кикона коментируй функции сам
 	x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
 	if x_forwarded_for:
 		ip = x_forwarded_for.split(',')[0]
@@ -42,7 +60,7 @@ def get_style(request):
 	img = 'image/logo.png'
 	if 'theme' in request.COOKIES:
 		file = request.COOKIES['theme']
-	else: 
+	else:
 		file = 'css/purple_gold.css'
 	return img, file
 
@@ -367,7 +385,7 @@ def profile(request):
 		user_image = request.user.profile.user_image.url
 
 
-		
+
 		if role == 'Мэр':
 			cities = City.objects.all()
 			cities = cities.filter(active=True)
@@ -783,7 +801,7 @@ def edit_form(request, form_id):
 
 def colored_purpule_gold_theme(request):
 	style_file = 'css/purple_gold.css'
-	
+
 	response = redirect("/marupik/main")
 	response.set_cookie('theme', style_file)
 	return response
@@ -801,4 +819,3 @@ def light_theme(request):
 	response = redirect("/marupik/main")
 	response.set_cookie('theme', style_file)
 	return response
-

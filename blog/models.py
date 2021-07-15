@@ -63,14 +63,15 @@ class Profile(models.Model):
 		(role5, 'ФБР'),
 		(role6, 'Глава ФБР'),
 	]
-	
 
-	
+
+
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	user_image = models.ImageField(upload_to='users/user_image/',  default="users/user_image/default/default.png", blank=True)
 	info = models.TextField(default = 'Проходивший мимо пользователь сайта, который ничего о себе не написал',max_length=1000)
 	create_date = models.DateTimeField(default = timezone.now)
 	role = models.CharField(max_length = 9, choices = ROLES, default = role1)
+	discord = models.CharField(max_length=100)
 	admin = models.BooleanField(default=False)
 	registered = models.BooleanField(default=False)
 
@@ -79,7 +80,7 @@ class Profile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
 	if created:
 		Profile.objects.create(user=instance)
-		
+
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
 	instance.profile.save()
@@ -92,7 +93,7 @@ class City(models.Model):
 	image3 = models.ImageField(default="city/image/default/default.png", upload_to='city/image/', max_length=100, blank = True)
 	image4 = models.ImageField(default="city/image/default/default.png", upload_to='city/image/', max_length=100, blank = True)
 	image5 = models.ImageField(default="city/image/default/default.png", upload_to='city/image/', max_length=100, blank = True)
-	
+
 	title = models.CharField(max_length=100)
 	smol_text = models.TextField(max_length=400, default = "Информация от мэра города не поступила.")
 	text = models.TextField(default = "Информация от мэра города не поступила.")
