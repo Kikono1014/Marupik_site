@@ -16,6 +16,8 @@ from .forms import (
     EditNewsCommentForm,
     DeleteArticleCommentForm,
     EditArticleCommentForm,
+    DeleteNewsForm,
+    DeleteArticleForm,
 )
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
@@ -343,6 +345,30 @@ def delete_news_comment(request, comment_id, news_id):
     }
     return render(request, 'news/delete_news_comment_page.html', context)
 
+def delete_news(request, news_id):
+    islogin, header_img, style_file, news = get_info(request)
+    news_to_delete = get_object_or_404(News, id=news_id)
+    name = news_to_delete.author
+    if request.method == 'POST':
+        form = DeleteNewsForm(request.POST, instance=news_to_delete)
+
+        if form.is_valid():
+            news_to_delete.delete()
+            return redirect(f"/marupik/news/")
+
+    else:
+        form = DeleteNewsForm(instance=news_to_delete)
+
+    context = {
+        'islogin': islogin,
+        'form': form,
+        'name': name,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'news/delete_news_page.html', context)
+
+
 
 def edit_news_comment(request, comment_id, news_id):
     islogin, header_img, style_file, news = get_info(request)
@@ -494,6 +520,31 @@ def show_one_article(request, article_id):
         'style_file': style_file
     }
     return render(request, 'article/one_article_page.html', context)
+
+
+def delete_article(request, article_id):
+    islogin, header_img, style_file, news = get_info(request)
+    article_to_delete = get_object_or_404(Article, id=article_id)
+    name = article_to_delete.author
+    if request.method == 'POST':
+        form = DeleteArticleForm(request.POST, instance=article_to_delete)
+
+        if form.is_valid():
+            article_to_delete.delete()
+            return redirect(f"/marupik/articles/")
+
+    else:
+        form = DeleteArticleForm(instance=article_to_delete)
+
+    context = {
+        'islogin': islogin,
+        'form': form,
+        'name': name,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'article/delete_article_page.html', context)
+
 
 
 def delete_article_comment(request, comment_id, article_id):

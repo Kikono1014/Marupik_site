@@ -35,6 +35,10 @@
 					{% if news.author == user %}
 						<a class="button" style="float:left; margin-top: 25px; font-size: 17px;" href="{%url 'edit_one_news' news_id=news.pk%}">Редактировать</a>
 					{% endif %}
+
+					{% if news.author == user or request.user.profile.admin %}
+						<a class="button" style="float:right; margin-top: 25px; font-size: 17px;" href="{%url 'news_delete' news_id=news.pk%}">Удалить</a>
+					{% endif %}
 				</div>
 				
 				<div class="comments_block">

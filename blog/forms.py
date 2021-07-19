@@ -20,6 +20,17 @@ class Add_nuwsForm(forms.ModelForm):
         model = News
         fields = ('image', 'title', 'text',)
 
+class DeleteNewsForm(forms.ModelForm):
+    class Meta:
+        model = News
+        fields = []
+
+
+class DeleteArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = []
+
 
 class EditNewsCommentForm(forms.ModelForm):
     class Meta:
