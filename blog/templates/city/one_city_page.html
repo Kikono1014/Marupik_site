@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	{% include 'parts_of_page/pages_head.html' %}
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="{% static 'js/jquery.waterwheelCarousel.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/Carousel.js' %}"></script>
+
+</head>
+	
+
+<body>
+
+
+<div class = "wrapper">
+	{% include 'parts_of_page/header.html' %}
+
+	<div class = "content" style="width: 100%;">
+			
+		<div class="one_city">
+				
+				<h1 class="title">{{city.title}}</h1>
+				<p class="author">Информацию написал {{city.author}}</p>
+				<p class="mayor">Мэр города: {{city.mayor}}</p>
+				<div id="carousel">
+					<a href="#"><img src="{{city.image1.url}}" id="item-1" /></a>
+					<a href="#"><img src="{{city.image2.url}}" id="item-2" /></a>
+					<a href="#"><img src="{{city.image3.url}}" id="item-3" /></a>
+					<a href="#"><img src="{{city.image4.url}}" id="item-4" /></a>
+					<a href="#"><img src="{{city.image5.url}}" id="item-5" /></a>
+				</div>
+
+				<div class="text">
+					{% for line in text %}
+						<p>{{line}}</p>
+					{% endfor %}
+				</div>
+				<a href="{{city.contact_url}}" style="float: right;">Отправить заявку на вступление.</a>
+				{% if city.author == user.username or user.username == mayor or user.profile.admin == True %}
+					<a class="button" style="float:left;" href="{%url 'edit_one_city' city_id=city.pk%}">Редактировать</a>
+				{% endif %}
+			</div>
+			
+	</div>
+
+	{% include 'parts_of_page/footer.html' %}
+</div>
+
+
+</body>
+</html>

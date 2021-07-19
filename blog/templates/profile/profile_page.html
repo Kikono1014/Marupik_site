@@ -1,0 +1,86 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		{% include 'parts_of_page/pages_head.html' %}
+
+	</head>
+
+
+	<body>
+
+
+
+		<div class="wrapper">
+
+			{% include 'parts_of_page/header.html' %}
+
+			{% include 'parts_of_page/news.html' %}
+
+			<div class="content">
+				<div class="profile_page">
+					<div class="img_div">
+						<img src="{{user_image}}" width="100%">
+					</div>
+					<div class="profile_div username"><p style="font-size: 35px; color: {{role_color}}">{{ username }}</p></div>
+					<div class="profile_div full_info">
+						{% for info in full_info %}
+							<p>{{ info }}</p>
+						{% endfor %}
+					</div>
+					<div class="profile_div role"><p>Роль на сайте: {{ role }} {% if admin %}+ Вы ещё и админ, поздравляю{% endif %}</p></div>
+					<div class="profile_div available_options">
+						<p>Доступные возможности на сайте:</p>
+						{% if role == 'Журналист' %}
+							<p>Вам доступно <a href="/marupik/news/add">добавление новостей</a>.</p>
+						{% elif role == 'Президент' %}
+							<p>Поздравляю вас, вы имеет смое большое влияние на сервере, после администрации, вам доступно <a href="/marupik/city/add">добавление городов</a>, можете выдавать роли новым мэрам, главам фбр, журналистам и тд, через профиль, а также вы имеете право деактивировать отображение новости, если она показалась вам ошибочной, или некачественной.</p>
+						{% elif role == 'Глава ФБР' %}
+							<p>Вы главный в правоохоронной организации сервера, вы можете контролировать <a href="#">заявления и  отчёты</a> членов ФБР, а также назначать новых ФБР.</p>
+						{% elif role == 'ФБР' %}
+							<h1>Простите, пока что функционала нету, но есть цветной ник)</h1>
+							<p>Вы один из членов правоохоронной организации сервера, вы можете <a href="#">добавлять <strong>важные/весомые</strong> заявления</a>, к примеру те что решают отношение между городами, а также <a href="#">писать отчёты</a>.</p>
+						{% elif role == 'Мэр' %}
+							<p>Вы мэр города {{your_city_name}}, вы можете <a href="{%url 'edit_one_city' city_id=your_city_id%}">добавить информацию</a> о своём городе.</p>
+						{% else %}
+							<p>Вы просто игрок, вы можете просматривать розмещённую на сайте информацию и писать коментарии, но не более, стремитесь занять важную должность и вам откроется росширеный функционал сайта.</p>
+							<p>Можеть быть вам просто не выдали соответсующую роль, свяжитесь с одним из игроков, что имеет роль "Админ сайта" на дискорд сервере.</p>
+						{% endif %}
+					</div>
+
+					<div class="profile_div admins_options">
+						{% if admin %}
+							<p>Доступно админам:</p>
+							<p><a href="/marupik/all_profile">Все пользователи</a></p>
+							<p><a href="/marupik/news/add">Добавление новостей</a></p>
+							<p><a href="/marupik/city/add">Добавление городов</a></p>
+							<p><a href="#">Заявления и  отчёты</a></p>
+							<p><a href="#">Добавлять важные/весомые заявления</a></p>
+							<p><a href="#">Писать отчёты</a></p>
+							<p><a href="#">Добавить информацию о своём городе</a></p>
+						{% endif %}
+					</div>
+					<div style="margin-top: 50px">
+						<a class="button" style="font-size: 17px; " href="{%url 'another_profile' user_id=user.pk%}">Коментарии</a>
+						<a class="button" href="/marupik/profile/upgrade" style="float: right;font-size: 17px;">Редактировать</a>
+					</div>
+
+				</div>
+
+			
+			</div>
+
+			{% include 'parts_of_page/footer.html' %}
+
+		</div>
+
+
+
+	</body>
+
+</html>
+

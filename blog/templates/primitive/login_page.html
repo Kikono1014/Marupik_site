@@ -1,0 +1,54 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		{% include 'parts_of_page/pages_head.html' %}
+
+	</head>
+
+
+	<body>
+
+
+
+		<div class="wrapper">
+
+			{% include 'parts_of_page/header.html' %}
+
+			{% include 'parts_of_page/news.html' %}
+
+			<div class="content">
+				<form method="POST" class="register_and_login">
+					{% csrf_token %}
+					{{form.as_p}}
+					<div class="errors">
+						<p>{{error}}</p>
+					</div>
+					<button class="button" style="float: right;" type="submit">Логин</button>
+				</form>
+				<p class="register_and_login_text"> Нет аккаунта? <a href="/marupik/register">Зарегистрироватся</a></p>
+				
+			</div>
+
+			{% include 'parts_of_page/footer.html' %}
+
+		</div>
+
+
+
+	</body>
+
+</html>
+<div class="newses_page">
+
+
+
+
+	
+
+</div>
+
