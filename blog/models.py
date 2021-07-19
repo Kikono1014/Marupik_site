@@ -77,20 +77,12 @@ class Profile(models.Model):
         default="users/user_image/default/default.png",
         blank=True
     )
-<<<<<<< HEAD
     
     info = models.TextField(
         default='Проходивший мимо пользователь сайта, который ничего о себе не написал',
         max_length=1000
     )
     
-=======
-    info = models.TextField(
-        default='Проходивший мимо пользователь сайта,'
-        ' который ничего о себе не написал',
-        max_length=1000
-    )
->>>>>>> e815377394f7e821eccd034616585e27a4002a98
     create_date = models.DateTimeField(default=timezone.now)
     role = models.CharField(max_length=9, choices=ROLES, default=role1)
     # discord = models.CharField(max_length=100)
@@ -98,72 +90,16 @@ class Profile(models.Model):
     admin = models.BooleanField(default=False)
     registered = models.BooleanField(default=False)
 
-    role1 = 'Игрок'
-    role2 = 'Журналист'
-    role3 = 'Мэр'
-    role4 = 'Президент'
-    role5 = 'ФБР'
-    role6 = 'Глава ФБР'
-    ROLES = [
-        (role1, 'Игрок'),
-        (role2, 'Журналист'),
-        (role3, 'Мэр'),
-        (role4, 'Президент'),
-        (role5, 'ФБР'),
-        (role6, 'Глава ФБР'),
-    ]
-
-<<<<<<< HEAD
-
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_image = models.ImageField(upload_to='users/user_image/',  default="users/user_image/default/default.png", blank=True)
-    info = models.TextField(default = 'Проходивший мимо пользователь сайта, который ничего о себе не написал',max_length=1000)
-    create_date = models.DateTimeField(default = timezone.now)
-    role = models.CharField(max_length = 9, choices = ROLES, default = role1)
-    discord = models.CharField(max_length=100)
-    admin = models.BooleanField(default=False)
-    registered = models.BooleanField(default=False)
-
-=======
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_image = models.ImageField(
-        upload_to='users/user_image/',
-        default="users/user_image/default/default.png",
-        blank=True
-    )
-    info = models.TextField(
-        default='Проходивший мимо пользователь сайта,'
-        'который ничего о себе не написал',
-        max_length=1000
-    )
-    create_date = models.DateTimeField(default=timezone.now)
-    role = models.CharField(max_length=9, choices=ROLES, default=role1)
-    discord = models.CharField(max_length=100)
-    admin = models.BooleanField(default=False)
-    registered = models.BooleanField(default=False)
->>>>>>> e815377394f7e821eccd034616585e27a4002a98
 
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
-<<<<<<< HEAD
-
-    if created:
-        Profile.objects.create(user=instance)
-
-
-    if created:
-        Profile.objects.create(user=instance)
-
-=======
     if created:
         Profile.objects.create(user=instance)
 
     if created:
         Profile.objects.create(user=instance)
 
->>>>>>> e815377394f7e821eccd034616585e27a4002a98
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
@@ -238,56 +174,3 @@ class Penetration(models.Model):
     contact = models.CharField(max_length=200)
     status = models.BooleanField(default=False)
     create_date = models.DateTimeField(default=timezone.now)
-
-<<<<<<< HEAD
-
-
-=======
-    image = models.ImageField(
-        default="city/image/default/default.png",
-        upload_to='city/image/',
-        max_length=100,
-        blank=True
-    )
-    image1 = models.ImageField(
-        default="city/image/default/default.png",
-        upload_to='city/image/',
-        max_length=100,
-        blank=True
-    )
-    image2 = models.ImageField(
-        default="city/image/default/default.png",
-        upload_to='city/image/',
-        max_length=100,
-        blank=True
-    )
-    image3 = models.ImageField(
-        default="city/image/default/default.png",
-        upload_to='city/image/',
-        max_length=100,
-        blank=True
-    )
-    image4 = models.ImageField(
-        default="city/image/default/default.png",
-        upload_to='city/image/',
-        max_length=100,
-        blank=True
-    )
-    image5 = models.ImageField(
-        default="city/image/default/default.png",
-        upload_to='city/image/',
-        max_length=100,
-        blank=True
-    )
-
-    title = models.CharField(max_length=100)
-    smol_text = models.TextField(
-        max_length=400,
-        default="Информация от мэра города не поступила."
-    )
-    text = models.TextField(default="Информация от мэра города не поступила.")
-    contact_url = models.URLField()
-    active = models.BooleanField(default=True)
-    author = models.CharField(max_length=100, default="ananist")
-    mayor = models.CharField(max_length=100, default="ananist")
->>>>>>> e815377394f7e821eccd034616585e27a4002a98
