@@ -44,7 +44,7 @@ def api(request):  # Функция для бота посути
         if(request.headers["Token"] not in ["test"]):
             return(JsonResponse({"error": "403"}))
     else:
-        return(JsonResponse({"error": "403"}))
+        return(JsonResponse({"error": {"code": "403", "details": "Wrong t"}}))
     if(request.headers["Rtype"] == "get"):  # Бот хочет получить данные?
         result = {'news': [], 'users': [], "citys": [], "error": 200}
         obj_news = get_news(request)
@@ -85,8 +85,7 @@ def api(request):  # Функция для бота посути
         return(JsonResponse(result))
 
     elif(request.headers["Rtype"] == "post"):  # Бот хочет добавить данные?
-        if("Add-discord" in request.headers and False):  # Данные о ДС
-            # Но код отключен тк бд не может хранить дс
+        if("Add-discord" in request.headers):  # Данные о ДС
             json_data = json.loads(request.headers["Add-discord"])
             username = json_data["username"]
             discord_id = json_data["discord_id"]
@@ -95,9 +94,22 @@ def api(request):  # Функция для бота посути
             if(profile is not None):  # Если профиль существет то присваиваем.
                 profile.discord = discord_id  # см models.py 88-89
             else:
-                return(JsonResponse({"error": 404}))
-            return(JsonResponse({"error": 200}))
-    return(JsonResponse({"error": 404}))
+                return(JsonResponse(
+                    {
+                        "error":
+                        {
+                            "code": 404,
+                            "details": "Profile not found."
+                        }
+                    }))
+    return(JsonResponse(
+        {
+            "error":
+            {
+                "code": 404,
+                "details": "Command not found."
+            }
+        }))
 
 
 def get_client_ip(request):  # берём ip юзера
