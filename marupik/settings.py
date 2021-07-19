@@ -61,7 +61,7 @@ ROOT_URLCONF = 'marupik.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, i) for i in os.listdir(os.path.join(BASE_DIR, "blog/templates"))],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

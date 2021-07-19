@@ -646,15 +646,17 @@ def show_cities(request):
         city_image = city.image.path
 
         city_image = city_image.replace("\\", "/")
-        img = Image.open(city_image)
-        width = img.size[0]
-        height = img.size[1]
-        if width != 300 and height != 300:
-            newsize = (300, 300)
-            img = img.resize(newsize)
+        try:
+            img = Image.open(city_image)
             width = img.size[0]
             height = img.size[1]
-            img.save(city_image, format="png")
+            if width != 300 and height != 300:
+                newsize = (300, 300)
+                img = img.resize(newsize)
+                width = img.size[0]
+                height = img.size[1]
+                img.save(city_image, format="png")
+        except: pass
 
     context = {
                 'newses': news,

@@ -85,9 +85,9 @@
 									<div class="dropdown">
 										<i  class="add material-icons" style="font-size: 50px;">more_vert</i>
 										<div class="dropdown-content">
-											<a href="{%url 'news_comment_delete' comment_id=comment.pk news_id=news.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: #e82323;">delete</i></a>
+											<a href="{%url 'comment_delete' comment_id=comment.pk news_id=news.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: #e82323;">delete</i></a>
 											
-											<a href="{%url 'news_comment_edit' comment_id=comment.pk news_id=news.pk%}#edit_comment" style="font-size: 25px; color: black;"><i class="material-icons">create</i></a>
+											<a href="{%url 'comment_edit' comment_id=comment.pk news_id=news.pk%}#edit_comment" style="font-size: 25px; color: black;"><i class="material-icons">create</i></a>
 											
 										</div>
 									</div>

@@ -23,13 +23,14 @@ urlpatterns = [
             path('profile/delete/user_comment/<int:user_id>/<int:comment_id>',views.delete_user_comment,  name='user_comment_delete'),
             path('profile/upgrade/', views.upgrade_profile),
 
-            re_path(r'^news*',views.show_news),
+
+            path('news/<int:news_id>/',views.show_one_news,  name='one_news'),
             path('news/add/', views.add_news),
             path('news/edit/<int:news_id>/', views.edit_news,  name='edit_one_news'),
-            path('news/<int:news_id>/',views.show_one_news,  name='one_news'),
             path('news/delete/comment/<int:news_id>/<int:comment_id>',views.delete_news_comment,  name='news_comment_delete'),
             path('news/edit/comment/<int:news_id>/<int:comment_id>',views.edit_news_comment,  name='news_comment_edit'),
-            
+            re_path(r'^news*',views.show_news),
+
             re_path(r'^cities*',views.show_cities),
             path('city/<int:city_id>/',views.show_one_city,  name='one_city'),
             path('city/add', views.add_city),
