@@ -21,6 +21,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from PIL import Image
 from django.http import JsonResponse
 import json
+import requests
 
 
 def get_info(request):  # Функция для получение информации
@@ -28,6 +29,14 @@ def get_info(request):  # Функция для получение информ�
     header_img, style_file = get_style(request)  # узнаём какая должна быть
     news = get_news(request)  # достаём новости для сайд бара
     return(islogin, header_img, style_file, news)
+
+
+def discord(request):  # Функция коннекта к ДСу
+    token = request.GET.get("code")
+    r = requests.get("https://discord.com/api/users/@me", headers={
+        "Authorization": f"{token}"
+    })
+    return(JsonResponse(r.json()))
 
 
 def api(request):  # Функция для бота посути
@@ -130,6 +139,8 @@ def show_main(request):  # отображение главной страниц�
            'style_file': style_file
           }
     return render(request, 'primitive/main_page.html', context)  # отображение шаблона
+
+
 
 
 def show_map(request):

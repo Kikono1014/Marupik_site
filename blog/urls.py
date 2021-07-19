@@ -49,12 +49,16 @@ urlpatterns = [
             
 
 
+            
+
+
 
             path('change_theme/colored_purpule_gold', views.colored_purpule_gold_theme),
             path('change_theme/dark', views.dark_theme),
             path('change_theme/light', views.light_theme),
 
             path('api/', views.api, name="api"),
+            path('discord/', views.discord, name="discord"),
             
 ]
 
