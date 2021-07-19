@@ -1,32 +1,66 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from .models import Profile, News, City, Penetration, Comment, UserComment
+from .models import Profile, News, Article, City, Penetration, NewsComment, UserComment, ArticleComment
 from django.contrib.auth.models import User
 
 
-class CommentForm(forms.ModelForm):
+class NewsCommentForm(forms.ModelForm):
     class Meta:
-        model = Comment
+        model = NewsComment
         fields = ('body',)
+
+class ArticleCommentForm(forms.ModelForm):
+    class Meta:
+        model = ArticleComment
+        fields = ('body',)
+
+
+class Add_nuwsForm(forms.ModelForm):
+    class Meta:
+        model = News
+        fields = ('image', 'title', 'text',)
+
+
+class EditNewsCommentForm(forms.ModelForm):
+    class Meta:
+        model = NewsComment
+        fields = ('body',)
+
+
+class DeleteNewsCommentForm(forms.ModelForm):
+    class Meta:
+        model = NewsComment
+        fields = []
+
+
+class NewsArticleForm(forms.ModelForm):
+    class Meta:
+        model = ArticleComment
+        fields = ('body',)
+
+
+class AddArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ('image', 'title', 'text',)
+
+
+class EditArticleCommentForm(forms.ModelForm):
+    class Meta:
+        model = NewsComment
+        fields = ('body',)
+
+
+class DeleteArticleCommentForm(forms.ModelForm):
+    class Meta:
+        model = NewsComment
+        fields = []
 
 
 class UserCommentForm(forms.ModelForm):
     class Meta:
         model = UserComment
         fields = ('body',)
-
-
-class EditCommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ('body',)
-
-
-class DeleteCommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = []
-
 
 class DeleteUserCommentForm(forms.ModelForm):
     class Meta:
@@ -46,10 +80,6 @@ class ProfileForm(forms.ModelForm):
         fields = ('user_image', 'info',)
 
 
-class Add_nuwsForm(forms.ModelForm):
-    class Meta:
-        model = News
-        fields = ('image', 'title', 'text',)
 
 
 class Add_citeForm(forms.ModelForm):

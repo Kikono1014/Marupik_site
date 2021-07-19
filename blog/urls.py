@@ -41,13 +41,13 @@ urlpatterns = [
             path('form/add/', views.add_form),
             path('form/edit/<int:form_id>/', views.edit_form,  name='edit_one_form'),
 
-            #re_path(r'^article*',views.show_article),
-            #path('article/add/', views.add_article),
-            #path('article/edit/<int:article_id>/', views.edit_article,  name='edit_one_article'),
-            #path('article/<int:article_id>/',views.show_one_article,  name='one_article'),
-            #path('article/delete/comment/<int:article_id>/<int:comment_id>',views.delete_article_comment,  name='article_comment_delete'),
-            #path('articl/edit/comment/<int:article_id>/<int:comment_id>',views.edit_article_comment,  name='article_comment_edit'),
             
+            path('article/add/', views.add_article),
+            path('article/edit/<int:article_id>/', views.edit_article,  name='edit_one_article'),
+            path('article/<int:article_id>/',views.show_one_article,  name='one_article'),
+            path('article/delete/comment/<int:article_id>/<int:comment_id>',views.delete_article_comment,  name='article_comment_delete'),
+            path('article/edit/comment/<int:article_id>/<int:comment_id>',views.edit_article_comment,  name='article_comment_edit'),
+            re_path(r'^articles*',views.show_articles),
 
 
             

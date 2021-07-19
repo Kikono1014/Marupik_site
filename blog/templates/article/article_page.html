@@ -1,0 +1,74 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		{% include 'parts_of_page/pages_head.html' %}
+
+	</head>
+
+
+	<body>
+
+
+
+		<div class="wrapper">
+
+			{% include 'parts_of_page/header.html' %}
+
+			<div class="content" style="width: 100%;">
+				{% for article in articles %}
+					<div class = "article">
+						<h1 class="title" style="margin-bottom:30px; ">{{article.title}}</h1>
+						<p class="date">{{article.create_date}}</p>
+						<p class="author">{{article.author}}:</p>
+						{% if article.image %}
+							<div class="img_div">
+								<img src="{{ article.image.url }}" width="100%">
+							</div>
+						{% else %}
+							<h2>Нет картинки</h2>
+						{% endif %}
+						<div class = "news_text">
+							<p>{{article.text|truncatewords:50 }}</p>
+							<a href="{%url 'one_article' article_id=article.pk%}">Читать далее...</a>	
+						</div>
+					</div>
+				{% endfor %}
+
+				<div class="pagination">
+					<ul>
+						<li class="normal">
+							{% if articles.has_previous %}
+								<a href="/marupik/articles?page={{ articles.previous_page_number }}"><i class="material-icons" style="font-size: 24px;">chevron_left</i></a>
+							{% endif %}
+						</li>
+						{% for x in paginator.page_range %}
+							<li {% if articles.number == x %}class="active">{% else %} class="normal"> {% endif %}<a href="/marupik/articles?page={{ x }}">{{x}}</a></li>
+						{% endfor %}
+						<li class="normal">
+							{% if articles.has_next %}
+								<a href="/marupik/articles?page={{ articles.next_page_number }}"><i class="material-icons" style="font-size: 24px;">chevron_right</i></a>
+							{% endif %}
+						</li>
+					</ul>
+				</div>
+			
+
+			</div>
+
+			{% include 'parts_of_page/footer.html' %}
+
+		</div>
+
+
+
+	</body>
+
+</html>
+
+
+

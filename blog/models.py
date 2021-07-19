@@ -23,7 +23,7 @@ class News(models.Model):
         self.publish_date = timezone.now()
 
 
-class Comment(models.Model):
+class NewsComment(models.Model):
     news = models.ForeignKey(
         News, related_name='comments', on_delete=models.CASCADE
     )
@@ -38,6 +38,36 @@ class Comment(models.Model):
     class Meta:
         ordering = ('created',)
 
+
+class Article(models.Model):
+    image = models.ImageField(
+        upload_to='article/image/',
+        height_field=None,
+        width_field=None,
+        max_length=100
+    )
+    title = models.CharField(max_length=1000)
+    text = models.TextField()
+    create_date = models.DateTimeField(default=timezone.now)
+    active = models.BooleanField(default=True)
+    author = models.CharField(max_length=100, default="ananist")
+
+
+
+class ArticleComment(models.Model):
+    article = models.ForeignKey(
+        Article, related_name='comments', on_delete=models.CASCADE
+    )
+    image = models.CharField(max_length=300, default="none")
+    name = models.CharField(max_length=100)
+    userid = models.CharField(max_length=1000, default=3)
+    role = models.CharField(max_length=100, default="Игрок")
+    body = models.TextField()
+    created = models.DateTimeField(default=timezone.now)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ('created',)
 
 class UserComment(models.Model):
     user = models.ForeignKey(
