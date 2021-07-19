@@ -446,9 +446,10 @@ def show_articles(request):
     res = Article.objects.all()
     res = res.filter(active=True)
     res = list(reversed(res))
-    paginator = Paginator(res, 3)
+    paginator = Paginator(res, 6)
     page_num = request.GET.get('page')
     article = paginator.get_page(page_num)
+
 
     context = {
         'articles': article,
@@ -467,6 +468,7 @@ def show_one_article(request, article_id):
     user = request.user.username
 
     comments = res.comments.filter(active=True)
+    comments = reversed(comments)
     if request.method == 'POST':
         comment_form = ArticleCommentForm(data=request.POST)
         if comment_form.is_valid():
@@ -475,7 +477,7 @@ def show_one_article(request, article_id):
             new_comment.role = request.user.profile.role
             new_comment.image = request.user.profile.user_image.url
             new_comment.userid = request.user.pk
-            new_comment.news = res
+            new_comment.article = res
             new_comment.save()
             return redirect(f"/article/{article_id}/")
     else:
@@ -520,12 +522,12 @@ def delete_article_comment(request, comment_id, article_id):
 
 def edit_article_comment(request, comment_id, article_id):
     islogin, header_img, style_file, news = get_info(request)
-    res = get_object_or_404(Article, pk=news_id)
+    res = get_object_or_404(Article, pk=article_id)
     article_text = res.text.split("\r\n")
     user = request.user.username
 
     comments = res.comments.filter(active=True)
-
+    comments = reversed(comments)
     comment_to_edit = get_object_or_404(ArticleComment, id=comment_id)
     if request.method == 'POST':
         edit_comment_form = EditArticleCommentForm(
@@ -544,7 +546,7 @@ def edit_article_comment(request, comment_id, article_id):
     context = {
         'article': res,
         'islogin': islogin,
-        'news_text': news_text,
+        'article_text': article_text,
         'user': user,
         'comments': comments,
         'comment_form': comment_form,
@@ -561,7 +563,7 @@ def add_article(request):
 
     if(request.method == "POST"):
         article_form = AddArticleForm(request.POST, request.FILES)
-        if(news_form.is_valid()):
+        if(article_form.is_valid()):
             article = article_form.save(commit=False)
             article.author = request.user.username
             article.save()

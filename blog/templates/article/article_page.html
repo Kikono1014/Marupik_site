@@ -19,10 +19,16 @@
 
 			{% include 'parts_of_page/header.html' %}
 
+			
+
 			<div class="content" style="width: 100%;">
+				<div style="margin-top: 25px; max-width: 220px;margin-left: auto;margin-right: 0px; margin-bottom: 25px;">
+ 					<a class="button" style="max-width: 8em;margin-left: auto;margin-right: 0em; font-size: 15px; font-weight: 800 " href="/marupik/article/add/">Написать статью</a>
+				</div>
+				<div class="articles">
 				{% for article in articles %}
 					<div class = "article">
-						<h1 class="title" style="margin-bottom:30px; ">{{article.title}}</h1>
+						
 						<p class="date">{{article.create_date}}</p>
 						<p class="author">{{article.author}}:</p>
 						{% if article.image %}
@@ -32,12 +38,13 @@
 						{% else %}
 							<h2>Нет картинки</h2>
 						{% endif %}
-						<div class = "news_text">
-							<p>{{article.text|truncatewords:50 }}</p>
+						<div class = "article_text">
+							<p>{{article.title}}</p>
 							<a href="{%url 'one_article' article_id=article.pk%}">Читать далее...</a>	
 						</div>
 					</div>
 				{% endfor %}
+				</div>
 
 				<div class="pagination">
 					<ul>

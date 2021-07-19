@@ -26,8 +26,13 @@
 						<div class="profile">
 							<form method="POST"  enctype="multipart/form-data" class="add_something" style="margin-top: 10px">
 								{% csrf_token %}
+								<p>{{ article_form.image }}</p>
 								
-								{{ article_form.as_p }}
+								<p>Название статьи:</p>
+								<p>{{ article_form.title }}</p>
+
+								<p>Текст статьи:</p>
+								<p>{{ article_form.text }}</p>
 								
 								<button type="submit" class="button" style="float: right;">Сохранить изменения</button>
 							</form>

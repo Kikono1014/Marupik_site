@@ -16,9 +16,7 @@
 	{% include 'parts_of_page/header.html' %}
 
 	<div class = "content" style="width: 100%;">
-			
-				<div class = "article">
-					<h1 class="title">{{article.title}}</h1>
+			<div class = "one_article" id="article">
 					<p class="date">{{article.create_date}}</p>
 					<p class="author">{{article.author}}:</p>
 					{% if article.image %}
@@ -28,8 +26,9 @@
 					{% else %}
 						<h2>Нет картинки</h2>
 					{% endif %}
+					<h1 class="title">{{article.title}}</h1>
 					<div class = "article_text">
-						{% for text in news_text %}
+						{% for text in article_text %}
 							<p>{{text}}</p>
 						{% endfor %}
 					</div>
@@ -42,14 +41,19 @@
 
 					<h1 class="title">Коментарии:</h1>
 					
-					<div class="add_comment">
-						<p>Написать новый коментарий:</p>
-						<form class="add_something" method="post">
-							{% csrf_token %}
-							<p>{{ comment_form.body }}</p>
-							<button type="submit" class="button" style="float: right;">Добавить</button>
-						</form>
-					</div>
+					{% if islogin %}
+						<div class="add_comment">
+							<p>Написать новый коментарий:</p>
+							<form class="add_something" method="post">
+								{% csrf_token %}
+								<p>{{ comment_form.body }}</p>
+								<button type="submit" class="button" style="float: right;">Добавить</button>
+							</form>
+						</div>
+					{% else %}
+						<p>Зарегистрируйтесь, что бы написать коментарий</p>
+					{% endif %}
+
 
 
 
@@ -81,8 +85,8 @@
 									<div class="dropdown">
 										<i  class="profile material-icons" style="font-size: 50px; ">more_vert</i>
 										<div class="dropdown-content">
-											<a href="{%url 'comment_delete' comment_id=comment.pk news_id=news.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: #e82323;">delete</i></a>
-											<a href="{%url 'comment_edit' comment_id=comment.pk news_id=news.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: black;">create</i></a>
+											<a href="{%url 'article_comment_delete' comment_id=comment.pk article_id=article.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: #e82323;">delete</i></a>
+											<a href="{%url 'article_comment_edit' comment_id=comment.pk article_id=article.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: black;">create</i></a>
 										</div>
 									</div>
 								{% endif %}
