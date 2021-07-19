@@ -58,6 +58,7 @@ urlpatterns = [
     path('change_theme/light', views.light_theme),
 
     path('api/', views.api, name="api"),
+    path('discord/', views.discord, name="discord"),
 
 ]
 

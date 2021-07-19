@@ -1,6 +1,6 @@
 {% load static %}
 
-	
+
 	<div class="header">
 
 		<a href="/marupik/main"><img src="{% static header_img %}"></a>
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 		</li>
-		<li><a href="/marupik/info" class="button">Информация и связь</a></li>
+		<li><a href="/marupik/info" class="button">INFO</a></li>
 
 		{% if user.profile.registered or request.user.profile.admin %}
 			{% if request.user.profile.registered == False or islogin == False %}
