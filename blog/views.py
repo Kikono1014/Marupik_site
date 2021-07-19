@@ -117,6 +117,9 @@ def get_style(request):  # изменение темы
     return(img, file)  # возвращаем расположение файлов
 
 
+
+#Обычные
+
 def show_main(request):  # отображение главной страницы
     islogin, header_img, style_file, news = get_info(request)
 
@@ -126,7 +129,7 @@ def show_main(request):  # отображение главной страниц�
            'header_img': header_img,
            'style_file': style_file
           }
-    return render(request, 'main_page.html', context)  # отображение шаблона
+    return render(request, 'primitive/main_page.html', context)  # отображение шаблона
 
 
 def show_map(request):
@@ -137,7 +140,7 @@ def show_map(request):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'map_page.html', context)
+    return render(request, 'primitive/map_page.html', context)
 
 
 def show_info(request):
@@ -148,7 +151,102 @@ def show_info(request):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'info_page.html', context)
+    return render(request, 'primitive/info_page.html', context)
+
+
+def register(request):
+    islogin, header_img, style_file, news = get_info(request)
+    err = ''
+    if(request.method == "POST"):
+        user_form = UserCreationForm(request.POST)
+        if user_form.is_valid():
+            user = user_form.save()
+            login(request, user)
+            return redirect("/marupik/main")
+        else:
+            err = user_form.errors.as_data()
+    else:
+        user_form = UserCreationForm()
+
+    err = str(err).split("'")
+    error = []
+    for i in err:
+        res = i.split(".")
+        for ii in res:
+            if ii == '':
+                error.append(i)
+
+    context = {
+        'newses': news,
+        'error': error,
+        'islogin': islogin,
+        'user_form': user_form,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'primitive/register_page.html', context)
+
+
+def logout_user(request):
+    logout(request)
+    return redirect("/marupik/main")
+
+
+def login_user(request):
+    islogin, header_img, style_file, news = get_info(request)
+    err = ''
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/marupik/main')
+            else:
+                err = "Пользователь с таким именем не существует"
+        else:
+            err = "Не верно указаны логин или пароль"
+
+    form = AuthenticationForm()
+    context = {
+        'newses': news,
+        'error': err,
+        'islogin': islogin,
+        'form': form,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+
+    return render(request, 'primitive/login_page.html', context)
+
+
+
+def all_profile(request):
+    islogin, header_img, style_file, news = get_info(request)
+
+    users = User.objects.all()
+    context = {
+                'newses': news,
+                'islogin': islogin,
+                'users': users,
+                'header_img': header_img,
+                'style_file': style_file,
+                }
+
+    return render(request, 'primitive/all_profile_page.html', context)
+
+
+
+
+
+
+
+
+
+
+#Новости
 
 
 def show_news(request):
@@ -169,7 +267,7 @@ def show_news(request):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'news_page.html', context)
+    return render(request, 'news/news_page.html', context)
 
 
 def show_one_news(request, news_id):
@@ -203,10 +301,10 @@ def show_one_news(request, news_id):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'one_news_page.html', context)
+    return render(request, 'news/one_news_page.html', context)
 
 
-def delete_comment(request, comment_id, news_id):
+def delete_news_comment(request, comment_id, news_id):
     islogin, header_img, style_file, news = get_info(request)
     comment_to_delete = get_object_or_404(Comment, id=comment_id)
     name = comment_to_delete.name
@@ -227,10 +325,10 @@ def delete_comment(request, comment_id, news_id):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'delete_comment_page.html', context)
+    return render(request, 'news/delete_news_comment_page.html', context)
 
 
-def edit_comment(request, comment_id, news_id):
+def edit_news_comment(request, comment_id, news_id):
     islogin, header_img, style_file, news = get_info(request)
     res = get_object_or_404(News, pk=news_id)
     news_text = res.text.split("\r\n")
@@ -266,7 +364,7 @@ def edit_comment(request, comment_id, news_id):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'edit_comment_page.html', context)
+    return render(request, 'news/edit_news_comment_page.html', context)
 
 
 def add_news(request):
@@ -293,7 +391,7 @@ def add_news(request):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'add_news_page.html', context)
+    return render(request, 'news/add_news_page.html', context)
 
 
 def edit_news(request, news_id):
@@ -322,75 +420,23 @@ def edit_news(request, news_id):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'edit_news_page.html', context)
+    return render(request, 'news/edit_news_page.html', context)
 
 
-def register(request):
-    islogin, header_img, style_file, news = get_info(request)
-    err = ''
-    if(request.method == "POST"):
-        user_form = UserCreationForm(request.POST)
-        if user_form.is_valid():
-            user = user_form.save()
-            login(request, user)
-            return redirect("/marupik/main")
-        else:
-            err = user_form.errors.as_data()
-    else:
-        user_form = UserCreationForm()
-
-    err = str(err).split("'")
-    error = []
-    for i in err:
-        res = i.split(".")
-        for ii in res:
-            if ii == '':
-                error.append(i)
-
-    context = {
-        'newses': news,
-        'error': error,
-        'islogin': islogin,
-        'user_form': user_form,
-        'header_img': header_img,
-        'style_file': style_file
-    }
-    return render(request, 'register_page.html', context)
 
 
-def logout_user(request):
-    logout(request)
-    return redirect("/marupik/main")
 
 
-def login_user(request):
-    islogin, header_img, style_file, news = get_info(request)
-    err = ''
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('/marupik/main')
-            else:
-                err = "Пользователь с таким именем не существует"
-        else:
-            err = "Не верно указаны логин или пароль"
 
-    form = AuthenticationForm()
-    context = {
-        'newses': news,
-        'error': err,
-        'islogin': islogin,
-        'form': form,
-        'header_img': header_img,
-        'style_file': style_file
-    }
 
-    return render(request, 'login_page.html', context)
+
+
+
+
+
+
+# Профиль
+
 
 
 def upgrade_profile(request):
@@ -435,7 +481,7 @@ def upgrade_profile(request):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'upgrade_profile_page.html', context)
+    return render(request, 'profile/upgrade_profile_page.html', context)
 
 
 def profile(request):
@@ -502,7 +548,7 @@ def profile(request):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'profile_page.html', context)
+    return render(request, 'profile/profile_page.html', context)
 
 
 def another_profile(request, user_id):
@@ -560,7 +606,7 @@ def another_profile(request, user_id):
         'style_file': style_file
     }
 
-    return render(request, 'another_profile_page.html', context)
+    return render(request, 'profile/another_profile_page.html', context)
 
 
 def delete_user_comment(request, comment_id, user_id):
@@ -585,22 +631,14 @@ def delete_user_comment(request, comment_id, user_id):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'delete_user_comment_page.html', context)
+    return render(request, 'profile/delete_user_comment_page.html', context)
 
 
-def all_profile(request):
-    islogin, header_img, style_file, news = get_info(request)
 
-    users = User.objects.all()
-    context = {
-                'newses': news,
-                'islogin': islogin,
-                'users': users,
-                'header_img': header_img,
-                'style_file': style_file,
-                }
 
-    return render(request, 'all_profile_page.html', context)
+
+
+#Города
 
 
 def show_cities(request):
@@ -636,7 +674,7 @@ def show_cities(request):
                 'style_file': style_file
                 }
 
-    return render(request, 'cities_page.html', context)
+    return render(request, 'city/cities_page.html', context)
 
 
 def show_one_city(request, city_id):
@@ -678,7 +716,7 @@ def show_one_city(request, city_id):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'one_city_page.html', context)
+    return render(request, 'city/one_city_page.html', context)
 
 
 def add_city(request):
@@ -705,7 +743,7 @@ def add_city(request):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'add_city_page.html', context)
+    return render(request, 'city/city/add_city_page.html', context)
 
 
 def edit_city(request, city_id):
@@ -739,8 +777,17 @@ def edit_city(request, city_id):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'edit_city_page.html', context)
+    return render(request, 'city/edit_city_page.html', context)
 
+
+
+
+
+
+
+
+
+#Форма регистрации
 
 def show_forms(request):
     islogin, header_img, style_file, news = get_info(request)
@@ -763,7 +810,7 @@ def show_forms(request):
         'style_file': style_file
     }
 
-    return render(request, 'forms_page.html', context)
+    return render(request, 'form/forms_page.html', context)
 
 
 def show_one_form(request, form_id):
@@ -795,7 +842,7 @@ def show_one_form(request, form_id):
             'style_file': style_file
             }
 
-    return render(request, 'one_form_page.html', context)
+    return render(request, 'form/one_form_page.html', context)
 
 
 def add_form(request):
@@ -825,7 +872,7 @@ def add_form(request):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'add_form_page.html', context)
+    return render(request, 'form/add_form_page.html', context)
 
 
 def edit_form(request, form_id):
@@ -859,7 +906,14 @@ def edit_form(request, form_id):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'edit_form_page.html', context)
+    return render(request, 'form/edit_form_page.html', context)
+
+
+
+
+
+
+#Тема
 
 
 def colored_purpule_gold_theme(request):

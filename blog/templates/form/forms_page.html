@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		{% include 'parts_of_page/pages_head.html' %}
+	</head>
+
+
+	<body>
+
+
+
+		<div class="wrapper">
+
+			{% include 'parts_of_page/header.html' %}
+
+			{% include 'parts_of_page/news.html' %}
+
+			<div class="content">
+				
+				{% if user.profile.registered or user.profile.admin %}
+					{% for form in forms %}
+						{% if user.profile.admin %}
+							<div class="form">
+								<p class="date"> Ждёт c {{form.create_date}}</p>
+								<p> Ник в майнкрафте: {{form.minecraft_nickname}}</p>
+								<p> Ник на сайте: {{form.site_username}}</p>
+								<p> Ник в донате: {{form.donation_username}}</p>
+								<p> Токен: {{form.free_token}}</p>
+								<p> В дискорде: {{form.contact}}</p>
+
+
+								<a href="{%url 'one_form' form_id=form.pk%}" style="float: left;">Подробнее...</a>
+								
+							</div>
+						{% elif user.username == form.site_username %}
+							<div class="form">
+								<p class="date">Ждёт c {{form.create_date}}</p>
+								<p> Ник в майнкрафте: {{form.minecraft_nickname}}</p>
+								<p> Ник на сайте: {{form.site_username}}</p>
+								<p> Ник в донате: {{form.donation_username}}</p>
+								<p> Токен: {{form.free_token}}</p>
+								<p> В дискорде: {{form.contact}}</p>
+
+
+								<a href="{%url 'one_form' form_id=form.pk%}" style="float: left;">Подробнее...</a>
+								
+							</div>
+						{% endif %}
+					{% endfor %}
+					{% if user.profile.admin %}
+						<div class="pagination">
+							<ul>
+								<li class="normal">
+									{% if forms.has_previous %}
+										<a href="/marupik/forms?page={{ forms.previous_page_number }}"><i class="material-icons" style="font-size: 24px;">chevron_left</i></a>
+									{% endif %}
+								</li>
+								{% for x in paginator.page_range %}
+									<li {% if forms.number == x %}class="active">{% else %} class="normal"> {% endif %}<a href="/marupik/forms?page={{ x }}">{{x}}</a></li>
+								{% endfor %}
+								<li class="normal">
+									{% if forms.has_next %}
+										<a href="/marupik/forms?page={{ forms.next_page_number }}"><i class="material-icons" style="font-size: 24px;">chevron_right</i></a>
+									{% endif %}
+								</li>
+							</ul>
+						</div>
+					{% endif %}
+				
+				{% else %}
+					<div class="add_form">
+						<p>Вы всё ещё не подали заявку на добавление в вайтлист</p>
+						<a href="/marupik/add_form" class="button" style="float:left; margin-top: 25px; font-size: 17px;">Подать заявку на вступление</a>
+					</div>
+				{% endif %}
+
+				</div>
+
+				{% include 'parts_of_page/footer.html' %}
+
+
+
+		</div>
+
+
+
+	</body>
+
+</html>

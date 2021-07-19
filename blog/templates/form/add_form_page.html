@@ -1,0 +1,84 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		{% include 'parts_of_page/pages_head.html' %}
+
+	</head>
+
+
+	<body>
+		{% if islogin %}
+			{% if request.user.profile.admin == True or request.user.profile.registered == False %}
+
+				<div class="wrapper">
+
+					{% include 'parts_of_page/header.html' %}
+
+					{% include 'parts_of_page/news.html' %}
+
+					
+						<div class="content">
+							<div class="profile">
+								<form method="POST"  enctype="multipart/form-data" class="add_something" style="margin-top: 50px">
+
+									{% csrf_token %}
+									
+									<p>Ваш ник в майнкрафте, пожалуйста, перепроверяйте, иначе мы не сможем добавить вас в вайтлист сервера:</p>
+									<p>{{ penetration_form.minecraft_nickname }}</p>
+									
+									
+
+									<p>Введите такой же ник, что и в донате, если вы не донатили - не изменяйте поле</p>
+									<p>{{ penetration_form.donation_username }}</p>
+
+									<p>Для большей достоверности вы можете добавить скриншот оплаты, если не хотите - не добавляйте</p>
+									<p>{{ penetration_form.donation_image }}</p>
+
+									<p>Если вы имеете токен для бесплатной регистрации - введите его, так же напишите в поле "Роскажите как узнали о сервере" ниже, откуда вы заполучили этот токен. Если у вас его нету - не изменяйте поле</p>
+									<p>{{ penetration_form.free_token }}</p>
+									
+									<p>Напишите о себе, что вы за человек, чего хотите достич и зачем вы хотите на сервер, если не жилаете роспростронять личную информацию - не изменяйте поле</p>
+									<p>{{ penetration_form.description_yourself }}</p>
+
+									<p>Роскажите о том, как вы узнали о сервере, это поможет нам.</p>
+									<p>{{ penetration_form.how_you_know }}</p>
+									
+									<p>Это обязательное поле, введите сюда способы, которыми мы можем с вами связатся и сообщить о том, что вы приняты, или указать на проблемы в заплнении формы. Желательно дискорд, но можете и другие, где присутствует текстовое общение, можете перечислить несколько. Но знайте, что для игры не в одиночку вы обязаны иметь аккаунт в дискорде.</p>
+									<p>{{ penetration_form.contact }}</p>
+
+
+									<a href="https://i.imgur.com/2qmR1t4.png" style="font-size: 25px;" target="_blank">Пример заполнения формы</a>
+
+									<p>Если у вас что-то не получилось, не волнуйтесь, в наших интересах вам помочь</p>
+									<p>Присоиденяйтесь к нашему дискорд серверу и задавайте вопросы:</p>
+									<a href="https://discord.gg/dmYdPfkvTY" style="font-size: 25px;" target="_blank">Сылка.</a>
+
+									{{profile_form.as_p}}
+									<button type="submit" class="button" style="float: right;">Сохранить</button>
+								</form>
+							</div>
+
+						
+						</div>
+
+					{% include 'parts_of_page/footer.html' %}
+
+				</div>
+
+			{% else %}
+				{% include 'primitive/not_found_page.html' %}
+			{% endif %}
+		{% else %}
+			<p>Error:</p>
+			<p>Вы не зарегистрированы на сайте</p>
+		{% endif %}
+
+	</body>
+
+</html>
+

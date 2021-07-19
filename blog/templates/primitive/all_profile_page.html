@@ -1,0 +1,38 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		{% include 'parts_of_page/pages_head.html' %}
+	</head>
+
+
+	<body>
+
+
+
+		<div class="wrapper">
+
+			{% include 'parts_of_page/header.html' %}
+
+			{% include 'parts_of_page/news.html' %}
+
+			<div class="content">
+				{% for user in users %}
+					<p><a href="{%url 'another_profile' user_id=user.pk%}">{{user.username}}</a></p>
+				{% endfor %}
+			</div>
+
+			{% include 'parts_of_page/footer.html' %}
+
+		</div>
+
+
+
+	</body>
+
+</html>
+
