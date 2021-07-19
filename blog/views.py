@@ -261,7 +261,6 @@ def all_profile(request):
 
 
 # Новости
-
 def show_news(request):
     islogin = request.user.is_authenticated  # залогинен ли вользователь
     header_img, style_file = get_style(request)  # узнаём какая тема
