@@ -1189,6 +1189,7 @@ def edit_form(request, form_id):
 # Тема
 def change_theme(request, theme_name):
     style_file = f'css/{theme_name}.css'
+    
     response = redirect("/marupik/main")
     response.set_cookie('theme', style_file)
     return response

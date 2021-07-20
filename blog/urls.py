@@ -53,7 +53,7 @@ urlpatterns = [
             re_path(r'^articles*',views.show_articles),
 
 
-            path('change_theme/<str:theme_name>', views.change_theme),
+            path('change_theme/<str:theme_name>', views.change_theme, name='change_theme'),
 
             path('api/', views.api, name="api"),
             path('discord/', views.discord, name="discord"),
