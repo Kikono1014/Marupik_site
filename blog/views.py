@@ -23,6 +23,15 @@ from django.http import JsonResponse
 import json
 import requests
 
+API_TOKENS = [
+    "5uT8TgYv8g",
+    "sGX3oeicfX",
+    "Poh45c27NE",
+    "Nq6Ffwjg0f",
+    "sfc1Z5XhRx",
+    "nBMzRUopIl"
+]
+
 
 def get_info(request):  # Функция для получение информации
     islogin = request.user.is_authenticated  # залогинен ли вользователь
@@ -32,21 +41,39 @@ def get_info(request):  # Функция для получение информ�
 
 
 def discord(request):  # Функция коннекта к ДСу
-    token = request.GET.get("code")
-    r = requests.get("https://discord.com/api/users/@me", headers={
-        "Authorization": f"{token}"
-    })
+    code = request.GET.get("code")
+    data = {
+        "client_id": "623940461412876288",
+        "client_secret": "x9XwSpBw7DEDtngEo4XAwWncAfYHvN9Y",
+        "grant_type": "authentication_code",
+        "code": code,
+        #"redirect_url": "http://mmarupik.pythonanywhere.com",
+        #"scope": "idendifity"
+    }
+    r = requests.post(
+        "https://discord.com/api/oauth2/token",
+        data=data,
+        headers={"Content-Type": "application/x-www-form-urlencoded"}
+    )
     return(JsonResponse(r.json()))
 
 
 def api(request):  # Функция для бота посути
     if("token" in request.headers):  # Проверка токена
-        if(request.headers["Token"] not in ["test"]):
+        if(request.headers["Token"] not in API_TOKENS):
             return(JsonResponse({"error": "403"}))
     else:
-        return(JsonResponse({"error": {"code": "403", "details": "Wrong t"}}))
+        return(JsonResponse(
+            {
+                "error":
+                {
+                    "code": "403",
+                    "details": "Wrong token"
+                }
+            }
+            ))
     if(request.headers["Rtype"] == "get"):  # Бот хочет получить данные?
-        result = {'news': [], 'users': [], "citys": [], "error": 200}
+        result = {'news': [], 'users': [], "citys": [], "error": {"code": 200}}
         obj_news = get_news(request)
         for i in obj_news:  # Новости
             result['news'].append(

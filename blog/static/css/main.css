@@ -1,0 +1,163 @@
+body{
+	background-color: #343434;
+	color: #fff;
+}
+
+.topnav {
+	display: block;
+    background-color: #202020;
+	position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    margin-left: -8px;
+   /*box-shadow: 1px 0 10px 1px #fff;*/
+}
+.topnav ul {
+	margin-top: 10px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.topnav a {
+	margin-left: 10px;
+    text-decoration: none;
+    font-family: sans-serif;
+    color: #c0c0c0;
+    display: inline-block;
+    border-bottom: 3px solid #c0c0c0;
+    font-variant: small-caps;
+    padding: 10px 30px;
+}
+
+.topnav h1 {
+	cursor: pointer;
+	color: #fff;
+	margin-top: -57px;
+	margin-left: 25px;
+}
+
+
+.inf{
+	margin-top: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inf h1{
+	margin-top: -150px;
+	margin-left: -30px;
+}
+
+.inf h3{
+	width: 300px;
+	margin-left: -320px;
+	margin-top: 40px;
+}
+
+.inf img {
+	margin-left: 30px;
+	border-radius: 10px;
+	box-shadow: 0.4px 0.4px 5px #fff;
+}
+
+.ogl{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*города*/
+.gorod{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gorod h1{
+	margin-top: -230px;
+	margin-left: 220px;
+}
+
+.gorod h3{
+	width: 500px;
+	margin-left: 220px;
+	margin-top: 10px;
+}
+
+.gorod img {
+	margin-left: -300px;
+	border-radius: 10px;
+	box-shadow: 0.4px 0.4px 5px #fff;
+}
+
+.gorod p {
+	margin-left: 225px;
+}
+
+.g1{
+	margin-left: 15%;
+}
+
+
+/*подвал*/
+.footer{
+	margin-top: 40px;
+}
+
+.footer p{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer img{
+	width: 35px;
+	height: 35px;
+	cursor: pointer;
+	margin-left: 5px;
+}
+
+/*info*/
+.api{
+    text-decoration: none;
+    font-family: sans-serif;
+    color: #fff;
+    display: inline-block;
+    padding: 8px 20px;
+    border-bottom: 2px solid #fff;
+    font-size: 13px;
+    border-radius: 12px;
+    float: left;
+    width: 10%;
+    text-align: center;
+}
+
+.Version {
+    text-decoration: none;
+    font-family: sans-serif;
+    color: #fff;
+    display: inline-block;
+    padding: 8px 20px;
+    border-bottom: 2px solid #fff;
+    font-size: 13px;
+    border-radius: 12px;
+    float: left;
+    width: 5%;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.info{
+	margin-top: 70px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
