@@ -1161,44 +1161,8 @@ def edit_form(request, form_id):
 
 
 # Тема
-def purpule_gold_theme(request):
-    style_file = 'css/purple_gold.css'
-
-    response = redirect("/marupik/main")
-    response.set_cookie('theme', style_file)
-    return response
-
-def dark_cherry_pattern(request):
-    style_file = 'css/dark_cherry_pattern.css'
-
-    response = redirect("/marupik/main")
-    response.set_cookie('theme', style_file)
-    return response
-
-def ocean(request):
-    style_file = 'css/ocean.css'
-
-    response = redirect("/marupik/main")
-    response.set_cookie('theme', style_file)
-    return response
-
-def space(request):
-    style_file = 'css/space.css'
-
-    response = redirect("/marupik/main")
-    response.set_cookie('theme', style_file)
-    return response
-
-def dark_theme(request):
-    style_file = 'css/dark1.css'
-
-    response = redirect("/marupik/main")
-    response.set_cookie('theme', style_file)
-    return response
-
-
-def light_theme(request):
-    style_file = 'css/light1.css'
+def change_theme(request, theme):
+    style_file = 'css/' + theme + '.css'
 
     response = redirect("/marupik/main")
     response.set_cookie('theme', style_file)
