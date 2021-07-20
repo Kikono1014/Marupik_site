@@ -1379,6 +1379,10 @@ i {
 /*Футэр*/
 
 
+.footer .p_div {
+	float: left;
+}
+
 .footer p {
 	font-size: 16px;
 }
@@ -1386,6 +1390,7 @@ i {
 .footer .change_theme {
 	float: right;
 	margin-right: 25px;
+	margin-top: 10px;
 }
 
 

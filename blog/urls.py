@@ -58,6 +58,8 @@ urlpatterns = [
 
             path('change_theme/purpule_gold', views.purpule_gold_theme),
             path('change_theme/dark_cherry_pattern', views.dark_cherry_pattern),
+            path('change_theme/ocean', views.ocean),
+            path('change_theme/space', views.space),
             path('change_theme/dark', views.dark_theme),
             path('change_theme/light', views.light_theme),
 

@@ -1138,6 +1138,20 @@ def dark_cherry_pattern(request):
     response.set_cookie('theme', style_file)
     return response
 
+def ocean(request):
+    style_file = 'css/ocean.css'
+
+    response = redirect("/marupik/main")
+    response.set_cookie('theme', style_file)
+    return response
+
+def space(request):
+    style_file = 'css/space.css'
+
+    response = redirect("/marupik/main")
+    response.set_cookie('theme', style_file)
+    return response
+
 def dark_theme(request):
     style_file = 'css/dark1.css'
 
