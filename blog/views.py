@@ -1,5 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import News, Article, Profile, City, Penetration, NewsComment, UserComment, ArticleComment
+from .models import (
+    News,
+    Article,
+    Profile,
+    City,
+    Penetration,
+    NewsComment,
+    UserComment,
+    ArticleComment
+)
 from .forms import (
     UserForm,
     ProfileForm,
