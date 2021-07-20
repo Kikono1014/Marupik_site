@@ -656,7 +656,8 @@ def show_cities(request):
                 width = img.size[0]
                 height = img.size[1]
                 img.save(city_image, format="png")
-        except: pass
+        except Exception:
+            pass
 
     context = {
                 'newses': news,
