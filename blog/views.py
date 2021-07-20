@@ -1168,12 +1168,14 @@ def purpule_gold_theme(request):
     response.set_cookie('theme', style_file)
     return response
 
+
 def dark_cherry_pattern(request):
     style_file = 'css/dark_cherry_pattern.css'
 
     response = redirect("/marupik/main")
     response.set_cookie('theme', style_file)
     return response
+
 
 def ocean(request):
     style_file = 'css/ocean.css'
@@ -1182,12 +1184,14 @@ def ocean(request):
     response.set_cookie('theme', style_file)
     return response
 
+
 def space(request):
     style_file = 'css/space.css'
 
     response = redirect("/marupik/main")
     response.set_cookie('theme', style_file)
     return response
+
 
 def dark_theme(request):
     style_file = 'css/dark1.css'
@@ -1200,6 +1204,13 @@ def dark_theme(request):
 def light_theme(request):
     style_file = 'css/light1.css'
 
+    response = redirect("/marupik/main")
+    response.set_cookie('theme', style_file)
+    return response
+
+
+def change_theme(request, theme_name):
+    style_file = f'css/{theme_name}.css'
     response = redirect("/marupik/main")
     response.set_cookie('theme', style_file)
     return response
