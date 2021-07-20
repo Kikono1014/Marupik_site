@@ -52,19 +52,8 @@ urlpatterns = [
             path('article/edit/comment/<int:article_id>/<int:comment_id>',views.edit_article_comment,  name='article_comment_edit'),
             re_path(r'^articles*',views.show_articles),
 
-<<<<<<< HEAD
 
-            #path('change_theme/purpule_gold', views.purpule_gold_theme),
-            #path('change_theme/dark_cherry_pattern', views.dark_cherry_pattern),
-            #path('change_theme/ocean', views.ocean),
-            #path('change_theme/space', views.space),
-            #path('change_theme/dark', views.dark_theme),
-            #path('change_theme/light', views.light_theme),
             path('change_theme/<str:theme_name>', views.change_theme),
-=======
-            
-            path('change_theme/<str:theme>', views.change_theme,  name='change_theme'),
->>>>>>> 03e7ca56777900b4db044fcc572ee9abfe4012d5
 
             path('api/', views.api, name="api"),
             path('discord/', views.discord, name="discord"),
