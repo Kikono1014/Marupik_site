@@ -734,6 +734,7 @@ def upgrade_profile(request):
 
     user_image = request.user.profile.user_image.url
 
+    print(profile_form)
     context = {
         'newses': news,
         'user_image': user_image,
@@ -771,7 +772,7 @@ def profile(request):
 
     user_image = request.user.profile.user_image.url
 
-    if(role == 'Мэр'):
+    if 'Мэр' in role:
         cities = City.objects.all()
         cities = cities.filter(active=True)
         cities = list(reversed(cities))
@@ -783,18 +784,18 @@ def profile(request):
         your_city_name = None
         your_city_id = None
 
-    if role == 'Президент':
+    if 'Президент' in role:
         role_color = "rgb(200, 0, 200)"
-    elif role == 'ФБР' or role == 'Глава ФБР':
+    elif 'ФБР' in role or 'Глава ФБР' in role:
         role_color = "blue"
-    elif role == 'Мэр':
+    elif 'Мэр' in role:
         role_color = "brown"
-    elif role == 'Журналист':
+    elif 'Журналист' in role:
         role_color = "rgb(0, 200, 100)"
-    elif style_file == 'css/dark1.css':
-        role_color = "white"
-    else:
+    elif style_file == 'css/light.css' or style_file == 'css/purple_gold.css':
         role_color = "black"
+    else:
+        role_color = "white"
 
     context = {
         'newses': news,
@@ -825,18 +826,18 @@ def another_profile(request, user_id):
     role = user.profile.role
     admin = user.profile.admin
 
-    if role == 'Президент':
+    if 'Президент' in role:
         role_color = "rgb(200, 0, 200)"
-    elif role == 'ФБР' or role == 'Глава ФБР':
+    elif 'ФБР' in role or 'Глава ФБР' in role:
         role_color = "blue"
-    elif role == 'Мэр':
+    elif 'Мэр' in role:
         role_color = "brown"
-    elif role == 'Журналист':
+    elif 'Журналист' in role:
         role_color = "rgb(0, 200, 100)"
-    elif style_file == 'css/dark1.css':
-        role_color = "white"
-    else:
+    elif style_file == 'css/light.css' or style_file == 'css/purple_gold.css':
         role_color = "black"
+    else:
+        role_color = "white"
 
     comments = user.comments.filter(active=True)
     if request.method == 'POST':
@@ -1189,7 +1190,7 @@ def edit_form(request, form_id):
 # Тема
 def change_theme(request, theme_name):
     style_file = f'css/{theme_name}.css'
-    
+
     response = redirect("/marupik/main")
     response.set_cookie('theme', style_file)
     return response

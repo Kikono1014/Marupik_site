@@ -21,7 +21,7 @@
 
 			<div class="content" style="width: 100%;">
 				<div style="margin-top: 25px; max-width: 220px;margin-left: auto;margin-right: 0px; margin-bottom: 25px;">
-					{% if request.user.profile.role == "Журналист" %}
+					{% if "Журналист" in request.user.profile.role %}
  						<a class="button" style="max-width: 8em;margin-left: auto;margin-right: 0em; font-size: 15px; font-weight: 800 " href="/marupik/news/add/">Добавить новость</a>
 					{% endif %}
 				</div>

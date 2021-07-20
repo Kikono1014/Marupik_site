@@ -13,7 +13,7 @@
 
 	<body>
 
-		{% if role == 'Президент' or user.profile.admin == True %}
+		{% if 'Президент' in role or user.profile.admin %}
 
 			<div class="wrapper">
 

@@ -84,10 +84,14 @@ class UserForm(forms.ModelForm):
         fields = ('username',)
 
 
+
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('user_image', 'info',)
+
+        
+        fields = ('user_image', 'info', 'role',)
 
 
 

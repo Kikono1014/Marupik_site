@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from multiselectfield import MultiSelectField
 
 class News(models.Model):
     image = models.ImageField(
@@ -115,7 +115,7 @@ class Profile(models.Model):
     )
 
     create_date = models.DateTimeField(default=timezone.now)
-    role = models.CharField(max_length=9, choices=ROLES, default=role1)
+    role = MultiSelectField(choices=ROLES, default=role1)
     unconfirmed_discord = models.CharField(max_length=100, default="Не задан")
     unconfirmed_discord = models.CharField(max_length=100, default="Не задан")
     admin = models.BooleanField(default=False)

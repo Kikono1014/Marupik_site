@@ -13,7 +13,7 @@
 
 	<body>
 		{% if islogin %}
-			{% if request.user.profile.admin == True or request.user.profile.registered == False %}
+			{% if request.user.profile.admin or request.user.profile.registered == False %}
 
 				<div class="wrapper">
 

@@ -20,7 +20,7 @@
 			{% include 'parts_of_page/news.html' %}
 
 			<div class="content">
-				{% if request.user.profile.role == 'Мэр' or request.user.profile.admin %}
+				{% if 'Мэр' in request.user.profile.role or request.user.profile.admin %}
 					<div style="margin-top: 25px; max-width: 220px;margin-left: auto;margin-right: 0px; margin-bottom: 25px;">
 	 					<a class="button" style="max-width: 8em;margin-left: auto;margin-right: 0em; font-size: 15px; font-weight: 800 " href="/marupik/city/add/">Добавить город</a>
 					</div>
