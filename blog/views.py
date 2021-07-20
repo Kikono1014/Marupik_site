@@ -1162,7 +1162,7 @@ def edit_form(request, form_id):
 
 # Тема
 def change_theme(request, theme):
-    style_file = 'css/' + theme + '.css'
+    style_file = f"css/{theme}.css"
 
     response = redirect("/marupik/main")
     response.set_cookie('theme', style_file)
