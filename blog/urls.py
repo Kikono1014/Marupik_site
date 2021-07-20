@@ -52,10 +52,6 @@ urlpatterns = [
             re_path(r'^articles*',views.show_articles),
 
 
-            
-
-
-
             path('change_theme/purpule_gold', views.purpule_gold_theme),
             path('change_theme/dark_cherry_pattern', views.dark_cherry_pattern),
             path('change_theme/ocean', views.ocean),
