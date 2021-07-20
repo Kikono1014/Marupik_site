@@ -1,0 +1,451 @@
+body {
+	background-color:#033E86; 
+	background: -moz-linear-gradient(top, #033E86 0%, #020725 100%); 
+	background: -webkit-linear-gradient(top, #033E86 0%, #020725 100%); 
+	background: -o-linear-gradient(top, #033E86 0%, #020725 100%); 
+	background: -ms-linear-gradient(top, #033E86 0% ,#020725 100%);
+}
+
+
+
+
+
+.footer {
+	clear: both;
+	background-color:#020725; 
+	background: -moz-linear-gradient(top, #020725 0%, #020735 100%); 
+	background: -webkit-linear-gradient(top, #020725 0%, #020735 100%); 
+	background: -o-linear-gradient(top, #020725 0%, #020735 100%); 
+	background: -ms-linear-gradient(top, #020725 0% ,#020735 100%);
+	height: 100px;
+}
+
+.header {
+	list-style-type: none;
+	background-color:#13529e; 
+	background: -moz-linear-gradient(top, #13529e 0%, #033E86 100%); 
+	background: -webkit-linear-gradient(top, #13529e 0%, #033E86 100%); 
+	background: -o-linear-gradient(top, #13529e 0%, #033E86 100%); 
+	background: -ms-linear-gradient(top, #13529e 0% ,#033E86 100%);
+	position: fixed;
+	width: 100%;
+	height: 95px;
+	margin-top: 0px;
+	padding-left: 0px;
+
+	z-index: 1;
+}
+
+
+
+
+
+
+
+/*кнопки хедера*/
+
+.button {
+	text-decoration:none; 
+	text-align:center; 
+	padding:11px 33px; 
+	-webkit-border-radius:7px 9px 7px 9px; 	 	
+	border-radius: 7px 9px 7px 9px; 			
+	-moz-border-radius-topleft:7px; 				
+	-moz-border-radius-topright:9px; 
+	-moz-border-radius-bottomleft:9px; 				
+	-moz-border-radius-bottomright:7px;  
+	font:23px Tahoma, Geneva, sans-serif; 
+	font-weight:bold; 
+	color:#ffffff; 
+	background-color:#00a6ff; 
+	background: -moz-linear-gradient(top, #00a6ff 0%, #007bff 100%); 
+	background: -webkit-linear-gradient(top, #00a6ff 0%, #007bff 100%); 
+	background: -o-linear-gradient(top, #00a6ff 0%, #007bff 100%); 
+	background: -ms-linear-gradient(top, #00a6ff 0% ,#007bff 100%); 
+	background: linear-gradient(top, #00a6ff 0% ,#007bff 100%);   
+
+	-webkit-box-shadow:4px 4px 0px #095ab0, inset 1px 2px 10px #007bff; 
+	-moz-box-shadow: 4px 4px 0px #095ab0,  inset 1px 2px 10px #007bff;  
+	box-shadow:4px 4px 0px #095ab0, inset 1px 2px 10px #007bff; 
+	border: none;
+	border-color: transparent;
+
+}
+
+
+
+.button:hover {
+	background-color:#007bff; 
+	background: -moz-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -webkit-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -o-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -ms-linear-gradient(top, #007bff 0% ,#00a6ff 100%); 
+	background: linear-gradient(top, #007bff 0% ,#00a6ff 100%);   
+	border: none;
+	border-color: transparent;
+}
+
+
+.button:active{
+	position:relative;
+	top: 2px;
+	left: 2px;
+	-webkit-box-shadow:2px 2px 0px #095ab0, inset 1px 2px 10px #007bff; 
+	-moz-box-shadow: 2px 2px 0px #095ab0,  inset 1px 2px 10px #007bff;  
+	box-shadow:2px 2px 0px #095ab0, inset 1px 2px 10px #007bff; 
+	border: none;
+	border-color: transparent;
+}
+
+
+/*дропдаун меню*/
+
+
+.profile {
+	color: #00a6ff;
+}
+
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	right: 0;
+	min-width: 25px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 3;
+
+}
+
+.dropdown-content a {
+	background-color:#00a6ff; 
+	background: -moz-linear-gradient(top, #00a6ff 0%, #007bff 100%); 
+	background: -webkit-linear-gradient(top, #00a6ff 0%, #007bff 100%); 
+	background: -o-linear-gradient(top, #00a6ff 0%, #007bff 100%); 
+	background: -ms-linear-gradient(top, #00a6ff 0% ,#007bff 100%); 
+	background: linear-gradient(top, #00a6ff 0% ,#007bff 100%);   
+
+	-webkit-box-shadow: inset 1px 2px 10px #007bff; 
+	-moz-box-shadow: inset 1px 2px 10px #007bff;  
+	box-shadow: inset 1px 2px 10px #007bff;
+
+}
+
+.dropdown-content a:hover {
+	background-color:#007bff; 
+	background: -moz-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -webkit-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -o-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -ms-linear-gradient(top, #007bff 0% ,#00a6ff 100%); 
+	background: linear-gradient(top, #007bff 0% ,#00a6ff 100%);  
+}
+
+
+.dropdown:hover .dropbtn {
+	background-color: #00a6ff;
+}
+
+
+
+.dropup-content a {
+	background-color:#00a6ff; 
+	background: -moz-linear-gradient(top, #00a6ff 0%, #007bff 100%); 
+	background: -webkit-linear-gradient(top, #00a6ff 0%, #007bff 100%); 
+	background: -o-linear-gradient(top, #00a6ff 0%, #007bff 100%); 
+	background: -ms-linear-gradient(top, #00a6ff 0% ,#007bff 100%); 
+	background: linear-gradient(top, #00a6ff 0% ,#007bff 100%);
+	
+	-webkit-box-shadow: inset 1px 2px 10px #007bff; 
+	-moz-box-shadow: inset 1px 2px 10px #007bff;  
+	box-shadow: inset 1px 2px 10px #007bff; 
+
+}
+
+.dropup-content a:hover {
+	background-color:#007bff; 
+	background: -moz-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -webkit-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -o-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -ms-linear-gradient(top, #007bff 0% ,#00a6ff 100%); 
+	background: linear-gradient(top, #007bff 0% ,#00a6ff 100%); 
+}
+
+
+
+
+
+
+
+
+/*Новости*/
+
+.news_text a{
+	margin-top: 10px;
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+
+}
+
+
+
+/*пагинация*/
+
+
+
+.normal a {
+	color: #ffffff;
+}
+
+.active a {
+	color: #ffffff;
+}
+
+.active {
+	background-color:#007bff; 
+	background: -moz-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -webkit-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -o-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -ms-linear-gradient(top, #007bff 0% ,#00a6ff 100%); 
+	background: linear-gradient(top, #007bff 0% ,#00a6ff 100%);   
+}
+
+
+
+
+
+
+/*регистрация и логин*/
+
+.register_and_login input {
+	height: 30px;
+	padding: 6px 12px;
+	font-size: 20px;
+	line-height: 1.3333333;
+	border-radius: 3px;
+	background-color: #00a6ff;
+	border-color: black;  
+	color: #ffffff;
+	margin-right: 10px;
+	margin-left: 20px;
+}
+
+
+
+
+
+
+/*обновления профиля*/
+
+
+
+
+.change_info textarea {
+	background-color: #00a6ff;
+	border-color: black;  
+	color: #ffffff;  
+	font-family:Trebuchet MS;
+	font-size: 15px;
+}
+
+
+
+
+
+/*add_something*/
+
+
+
+
+
+.add_something input {
+	height: 30px;
+	padding: 6px 12px;
+	font-size: 20px;
+	line-height: 1.3333333;
+	border-radius: 3px;
+	background-color: #00a6ff;
+	border-color: black;  
+	color: #ffffff;  
+	margin-right: 10px;
+	margin-left: 20px;
+}
+
+.add_something textarea {
+	width: 100%;
+	height: 300px;
+	padding: 6px 12px;
+	font-size: 20px;
+	line-height: 1.3333333;
+	border-radius: 3px;
+	background-color: #00a6ff;
+	border-color: black;  
+	color: #ffffff;
+	margin-right: 10px;
+	margin-left: 20px;
+
+}
+
+
+
+
+
+.add_something p #id_user_image{
+	color: black;
+	height: 30px;
+	padding: 6px 12px;
+	font-size: 20px;
+	line-height: 1.3333333;
+	border-radius: 3px;
+	background-color: #00a6ff;
+	border-color: black;  
+	color: #ffffff;
+	margin-right: 10px;
+	margin-left: 15px;
+
+}
+
+
+
+
+
+
+/*города*/
+
+
+.city h1 {
+    color: #ffffff;
+}
+
+
+.one_city h1 {
+	text-decoration: none;
+	font-family: Verdana;
+	color: #ffffff;
+	font-weight: 800;
+	position: relative;
+	font-size: 50px;
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	font-variant: small-caps;
+	background-color:#007bff; 
+	background: -moz-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -webkit-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -o-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -ms-linear-gradient(top, #007bff 0% ,#00a6ff 100%); 
+	background: linear-gradient(top, #007bff 0% ,#00a6ff 100%); 
+	clip-path: polygon(0 0, 100% 0, 100% 63%, 97% 100%, 3% 100%, 0 59%);
+	border-radius: 2px;
+	width: 100%;
+	padding: 10px 0px 20px 0px;
+	height: 50px;
+	
+}
+
+
+
+
+
+
+/*Коментарии*/
+
+
+.comments_block .dropdown-content a {
+	background-color: transparent; 
+	background: -moz-linear-gradient(top, transparent 0%, transparent 100%); 
+	background: -webkit-linear-gradient(top, transparent 0%, transparent 100%); 
+	background: -o-linear-gradient(top, transparent 0%, transparent 100%); 
+	background: -ms-linear-gradient(top, transparent 0% ,transparent 100%); 
+	background: linear-gradient(top, transparent 0% ,transparent 100%);
+	
+	-webkit-box-shadow: inset 1px 2px 10px transparent; 
+	-moz-box-shadow: inset 1px 2px 10px transparent;  
+	box-shadow: inset 1px 2px 10px transparent;  
+
+}
+
+
+
+.edit_comment textarea {
+	background-color: #00a6ff;
+	border-color: black;  
+	color: #ffffff;
+}
+
+
+
+
+.add {
+	color: #f2f2f2;
+}
+
+
+
+
+
+
+/*главная*/
+
+.main .main_title {
+	text-decoration: none;
+	font-family: Verdana;
+	color: #ffffff;
+	font-weight: 800;
+	position: relative;
+	font-size: 50px;
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	font-variant: small-caps;
+	border-radius: 2px;
+	width: 100%;
+	padding: 10px 0px 20px 0px;
+	height: 50px;
+
+}
+
+
+
+
+
+
+
+
+
+
+/*Текст*/
+
+a {
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+	color: #9ec6ff;
+}
+
+p {
+	font-family:Trebuchet MS;
+	color: #ffffff;
+}
+
+
+
+.title {
+	text-decoration: none;
+	font-family: Verdana;
+	color: #ffffff;
+	font-weight: 800;
+	position: relative;
+	font-size: 50px;
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	font-variant: small-caps;
+	background-color:#007bff; 
+	background: -moz-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -webkit-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -o-linear-gradient(top, #007bff 0%, #00a6ff 100%); 
+	background: -ms-linear-gradient(top, #007bff 0% ,#00a6ff 100%); 
+	background: linear-gradient(top, #007bff 0% ,#00a6ff 100%); 
+	clip-path: polygon(0 0, 100% 0, 100% 63%, 97% 100%, 3% 100%, 0 59%);
+	border-radius: 2px;
+	width: 100%;
+	padding: 10px 0px 20px 0px;
+	height: 50px;
+}
+

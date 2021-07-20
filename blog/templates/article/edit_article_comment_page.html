@@ -16,25 +16,24 @@
 	{% include 'parts_of_page/header.html' %}
 
 	<div class = "content" style="width: 100%;">
-			
-				<div class = "news">
-					<h1 class="title">{{news.title}}</h1>
-					<p class="date">{{news.create_date}}</p>
-					<p class="author">{{news.author}}:</p>
-					{% if news.image %}
+			<div class = "one_article" id="article">
+					<p class="date">{{article.create_date}}</p>
+					<p class="author">{{article.author}}:</p>
+					{% if article.image %}
 						<div class="img_div">
-							<img src="{{ news.image.url }}" width="100%">
+							<img src="{{ article.image.url }}" width="100%">
 						</div>
 					{% else %}
 						<h2>Нет картинки</h2>
 					{% endif %}
-					<div class = "news_text">
-						{% for text in news_text %}
+					<h1 class="title">{{article.title}}</h1>
+					<div class = "article_text">
+						{% for text in article_text %}
 							<p>{{text}}</p>
 						{% endfor %}
 					</div>
-					{% if news.author == user %}
-						<a class="button" style="float:left; margin-top: 25px; font-size: 17px;" href="{%url 'edit_one_news' news_id=news.pk%}">Редактировать</a>
+					{% if article.author == user %}
+						<a class="button" style="float:left; margin-top: 25px; font-size: 17px;" href="{%url 'edit_one_article' article_id=article.pk%}">Редактировать</a>
 					{% endif %}
 				</div>
 				
@@ -42,14 +41,19 @@
 
 					<h1 class="title">Коментарии:</h1>
 					
-					<div class="add_comment">
-						<p>Написать новый коментарий:</p>
-						<form class="add_something" method="post">
-							{% csrf_token %}
-							<p>{{ comment_form.body }}</p>
-							<button type="submit" class="button" style="float: right;">Добавить</button>
-						</form>
-					</div>
+					{% if islogin %}
+						<div class="add_comment">
+							<p>Написать новый коментарий:</p>
+							<form class="add_something" method="post">
+								{% csrf_token %}
+								<p>{{ comment_form.body }}</p>
+								<button type="submit" class="button" style="float: right;">Добавить</button>
+							</form>
+						</div>
+					{% else %}
+						<p>Зарегистрируйтесь, что бы написать коментарий</p>
+					{% endif %}
+
 
 
 
@@ -59,7 +63,7 @@
 								<div class="comment">
 									<div class="info">
 										<div class="image_div"><img src="{{comment.image}}" width="100%"></div>
-										{{% if comment.role == 'Президент' %}
+										{% if comment.role == 'Президент' %}
 											<p style="; text-align: center; font-size: 20px;"><a href="{%url 'another_profile' user_id=comment.userid%}" class="username" style="color: rgb(200, 0, 200)"> {{ comment.name }} </a></p>
 										{% elif comment.role == 'ФБР' or comment.role == 'Глава ФБР' %}
 											<p style="; text-align: center; font-size: 20px;"><a href="{%url 'another_profile' user_id=comment.userid%}" class="username" style="color: blue}">  {{ comment.name }} </a></p>
@@ -83,8 +87,8 @@
 									<div class="dropdown">
 										<i  class="profile material-icons" style="font-size: 50px; ">more_vert</i>
 										<div class="dropdown-content">
-											<a href="{%url 'news_comment_delete' comment_id=comment.pk news_id=news.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: #e82323;">delete</i></a>
-											<a href="{%url 'news_comment_edit' comment_id=comment.pk news_id=news.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: black;">create</i></a>
+											<a href="{%url 'article_comment_delete' comment_id=comment.pk article_id=article.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: #e82323;">delete</i></a>
+											<a href="{%url 'article_comment_edit' comment_id=comment.pk article_id=article.pk%}"><i  class="profile material-icons" style="font-size: 25px; color: black;">create</i></a>
 										</div>
 									</div>
 								{% endif %}

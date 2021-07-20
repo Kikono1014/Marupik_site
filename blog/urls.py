@@ -27,6 +27,7 @@ urlpatterns = [
             path('news/<int:news_id>/',views.show_one_news,  name='one_news'),
             path('news/add/', views.add_news),
             path('news/edit/<int:news_id>/', views.edit_news,  name='edit_one_news'),
+            path('news/delete/<int:news_id>/',views.delete_news,  name='news_delete'),
             path('news/delete/comment/<int:news_id>/<int:comment_id>',views.delete_news_comment,  name='news_comment_delete'),
             path('news/edit/comment/<int:news_id>/<int:comment_id>',views.edit_news_comment,  name='news_comment_edit'),
             re_path(r'^news*',views.show_news),
@@ -41,20 +42,24 @@ urlpatterns = [
             path('form/add/', views.add_form),
             path('form/edit/<int:form_id>/', views.edit_form,  name='edit_one_form'),
 
-            #re_path(r'^article*',views.show_article),
-            #path('article/add/', views.add_article),
-            #path('article/edit/<int:article_id>/', views.edit_article,  name='edit_one_article'),
-            #path('article/<int:article_id>/',views.show_one_article,  name='one_article'),
-            #path('article/delete/comment/<int:article_id>/<int:comment_id>',views.delete_article_comment,  name='article_comment_delete'),
-            #path('articl/edit/comment/<int:article_id>/<int:comment_id>',views.edit_article_comment,  name='article_comment_edit'),
+            
+            path('article/add/', views.add_article),
+            path('article/edit/<int:article_id>/', views.edit_article,  name='edit_one_article'),
+            path('article/<int:article_id>/',views.show_one_article,  name='one_article'),
+            path('article/delete/<int:article_id>/',views.delete_article,  name='article_delete'),
+            path('article/delete/comment/<int:article_id>/<int:comment_id>',views.delete_article_comment,  name='article_comment_delete'),
+            path('article/edit/comment/<int:article_id>/<int:comment_id>',views.edit_article_comment,  name='article_comment_edit'),
+            re_path(r'^articles*',views.show_articles),
+
+
             
 
 
-            
 
-
-
-            path('change_theme/colored_purpule_gold', views.colored_purpule_gold_theme),
+            path('change_theme/purpule_gold', views.purpule_gold_theme),
+            path('change_theme/dark_cherry_pattern', views.dark_cherry_pattern),
+            path('change_theme/ocean', views.ocean),
+            path('change_theme/space', views.space),
             path('change_theme/dark', views.dark_theme),
             path('change_theme/light', views.light_theme),
 

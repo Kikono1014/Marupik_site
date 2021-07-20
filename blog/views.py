@@ -1,17 +1,23 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import News, Profile, City, Penetration, Comment, UserComment
+from .models import News, Article, Profile, City, Penetration, NewsComment, UserComment, ArticleComment
 from .forms import (
     UserForm,
     ProfileForm,
     Add_nuwsForm,
+    AddArticleForm,
     Add_citeForm,
     PenetrationForm,
     EditPenetrationForm,
-    CommentForm,
+    NewsCommentForm,
     UserCommentForm,
-    DeleteCommentForm,
+    ArticleCommentForm,
+    DeleteNewsCommentForm,
     DeleteUserCommentForm,
-    EditCommentForm
+    EditNewsCommentForm,
+    DeleteArticleCommentForm,
+    EditArticleCommentForm,
+    DeleteNewsForm,
+    DeleteArticleForm,
 )
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
@@ -317,7 +323,7 @@ def show_one_news(request, news_id):
 
     comments = res.comments.filter(active=True)
     if request.method == 'POST':
-        comment_form = CommentForm(data=request.POST)
+        comment_form = NewsCommentForm(data=request.POST)
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
             new_comment.name = request.user.username
@@ -328,7 +334,7 @@ def show_one_news(request, news_id):
             new_comment.save()
             return redirect(f"/news/{news_id}/")
     else:
-        comment_form = CommentForm()
+        comment_form = NewsCommentForm()
 
     context = {
         'news': res,
@@ -345,17 +351,17 @@ def show_one_news(request, news_id):
 
 def delete_news_comment(request, comment_id, news_id):
     islogin, header_img, style_file, news = get_info(request)
-    comment_to_delete = get_object_or_404(Comment, id=comment_id)
+    comment_to_delete = get_object_or_404(NewsComment, id=comment_id)
     name = comment_to_delete.name
     if request.method == 'POST':
-        form = DeleteCommentForm(request.POST, instance=comment_to_delete)
+        form = DeleteNewsCommentForm(request.POST, instance=comment_to_delete)
 
         if form.is_valid():
             comment_to_delete.delete()
             return redirect(f"/marupik/news/{news_id}/")
 
     else:
-        form = DeleteCommentForm(instance=comment_to_delete)
+        form = DeleteNewsCommentForm(instance=comment_to_delete)
 
     context = {
         'islogin': islogin,
@@ -366,6 +372,30 @@ def delete_news_comment(request, comment_id, news_id):
     }
     return render(request, 'news/delete_news_comment_page.html', context)
 
+def delete_news(request, news_id):
+    islogin, header_img, style_file, news = get_info(request)
+    news_to_delete = get_object_or_404(News, id=news_id)
+    name = news_to_delete.author
+    if request.method == 'POST':
+        form = DeleteNewsForm(request.POST, instance=news_to_delete)
+
+        if form.is_valid():
+            news_to_delete.delete()
+            return redirect(f"/marupik/news/")
+
+    else:
+        form = DeleteNewsForm(instance=news_to_delete)
+
+    context = {
+        'islogin': islogin,
+        'form': form,
+        'name': name,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'news/delete_news_page.html', context)
+
+
 
 def edit_news_comment(request, comment_id, news_id):
     islogin, header_img, style_file, news = get_info(request)
@@ -375,9 +405,9 @@ def edit_news_comment(request, comment_id, news_id):
 
     comments = res.comments.filter(active=True)
 
-    comment_to_edit = get_object_or_404(Comment, id=comment_id)
+    comment_to_edit = get_object_or_404(NewsComment, id=comment_id)
     if request.method == 'POST':
-        edit_comment_form = EditCommentForm(
+        edit_comment_form = EditNewsCommentForm(
             request.POST,
             instance=comment_to_edit
         )
@@ -388,8 +418,8 @@ def edit_news_comment(request, comment_id, news_id):
             err = edit_comment_form.errors.as_data()
             print(err)
     else:
-        comment_form = CommentForm()
-        edit_comment_form = EditCommentForm(instance=comment_to_edit)
+        comment_form = NewsCommentForm()
+        edit_comment_form = EditNewsCommentForm(instance=comment_to_edit)
 
     context = {
         'news': res,
@@ -461,6 +491,205 @@ def edit_news(request, news_id):
     }
     return render(request, 'news/edit_news_page.html', context)
 
+# Статьи
+def show_articles(request):
+    islogin = request.user.is_authenticated  # залогинен ли пользователь
+    header_img, style_file = get_style(request)  # узнаём какая тема
+
+    res = Article.objects.all()
+    res = res.filter(active=True)
+    res = list(reversed(res))
+    paginator = Paginator(res, 6)
+    page_num = request.GET.get('page')
+    article = paginator.get_page(page_num)
+
+
+    context = {
+        'articles': article,
+        'paginator': paginator,
+        'islogin': islogin,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'article/article_page.html', context)
+
+
+def show_one_article(request, article_id):
+    islogin, header_img, style_file, news = get_info(request)
+    res = get_object_or_404(Article, pk=article_id)
+    article_text = res.text.split("\r\n")
+    user = request.user.username
+
+    comments = res.comments.filter(active=True)
+    comments = reversed(comments)
+    if request.method == 'POST':
+        comment_form = ArticleCommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.name = request.user.username
+            new_comment.role = request.user.profile.role
+            new_comment.image = request.user.profile.user_image.url
+            new_comment.userid = request.user.pk
+            new_comment.article = res
+            new_comment.save()
+            return redirect(f"/article/{article_id}/")
+    else:
+        comment_form = ArticleCommentForm()
+
+    context = {
+        'article': res,
+        'islogin': islogin,
+        'article_text': article_text,
+        'user': user,
+        'comments': comments,
+        'comment_form': comment_form,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'article/one_article_page.html', context)
+
+
+def delete_article(request, article_id):
+    islogin, header_img, style_file, news = get_info(request)
+    article_to_delete = get_object_or_404(Article, id=article_id)
+    name = article_to_delete.author
+    if request.method == 'POST':
+        form = DeleteArticleForm(request.POST, instance=article_to_delete)
+
+        if form.is_valid():
+            article_to_delete.delete()
+            return redirect(f"/marupik/articles/")
+
+    else:
+        form = DeleteArticleForm(instance=article_to_delete)
+
+    context = {
+        'islogin': islogin,
+        'form': form,
+        'name': name,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'article/delete_article_page.html', context)
+
+
+
+def delete_article_comment(request, comment_id, article_id):
+    islogin, header_img, style_file, news = get_info(request)
+    comment_to_delete = get_object_or_404(ArticleComment, id=comment_id)
+    name = comment_to_delete.name
+    if request.method == 'POST':
+        form = DeleteArticleCommentForm(request.POST, instance=comment_to_delete)
+
+        if form.is_valid():
+            comment_to_delete.delete()
+            return redirect(f"/marupik/article/{article_id}/")
+
+    else:
+        form = DeleteArticleCommentForm(instance=comment_to_delete)
+
+    context = {
+        'islogin': islogin,
+        'form': form,
+        'name': name,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'article/delete_article_comment_page.html', context)
+
+
+def edit_article_comment(request, comment_id, article_id):
+    islogin, header_img, style_file, news = get_info(request)
+    res = get_object_or_404(Article, pk=article_id)
+    article_text = res.text.split("\r\n")
+    user = request.user.username
+
+    comments = res.comments.filter(active=True)
+    comments = reversed(comments)
+    comment_to_edit = get_object_or_404(ArticleComment, id=comment_id)
+    if request.method == 'POST':
+        edit_comment_form = EditArticleCommentForm(
+            request.POST,
+            instance=comment_to_edit
+        )
+        if edit_comment_form.is_valid():
+            edit_comment_form.save()
+            return redirect(f"/marupik/article/{article_id}/")
+        else:
+            err = edit_comment_form.errors.as_data()
+    else:
+        comment_form = ArticleCommentForm()
+        edit_comment_form = EditArticleCommentForm(instance=comment_to_edit)
+
+    context = {
+        'article': res,
+        'islogin': islogin,
+        'article_text': article_text,
+        'user': user,
+        'comments': comments,
+        'comment_form': comment_form,
+        'edit_comment_form': edit_comment_form,
+        'comment_id': comment_id,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'article/edit_article_comment_page.html', context)
+
+
+def add_article(request):
+    islogin, header_img, style_file, news = get_info(request)
+
+    if(request.method == "POST"):
+        article_form = AddArticleForm(request.POST, request.FILES)
+        if(article_form.is_valid()):
+            article = article_form.save(commit=False)
+            article.author = request.user.username
+            article.save()
+            article_form.save()
+            return redirect("/marupik/article")
+    else:
+        article_form = AddArticleForm()
+
+    role = request.user.profile.role
+
+    context = {
+        'newses': news,
+        'islogin': islogin,
+        'article_form': article_form,
+        'role': role,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'article/add_article_page.html', context)
+
+
+def edit_article(request, article_id):
+    islogin, header_img, style_file, news = get_info(request)
+    res = get_object_or_404(Article, pk=article_id)
+
+    if(request.method == "POST"):
+        article_form = AddArticleForm(request.POST, request.FILES, instance=res)
+        if article_form.is_valid():
+            article_form.save()
+            return redirect("/marupik/article")
+    else:
+        article_form = AddArticleForm(instance=res)
+
+    author = res.author
+    user = request.user
+    image = res.image.url
+
+    context = {
+        'newses': news,
+        'islogin': islogin,
+        'article_form': article_form,
+        'author': author,
+        'user': user,
+        'image': image,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'article/edit_article_page.html', context)
 
 # Профиль
 def upgrade_profile(request):
@@ -923,13 +1152,33 @@ def edit_form(request, form_id):
 
 
 # Тема
-def colored_purpule_gold_theme(request):
+def purpule_gold_theme(request):
     style_file = 'css/purple_gold.css'
 
     response = redirect("/marupik/main")
     response.set_cookie('theme', style_file)
     return response
 
+def dark_cherry_pattern(request):
+    style_file = 'css/dark_cherry_pattern.css'
+
+    response = redirect("/marupik/main")
+    response.set_cookie('theme', style_file)
+    return response
+
+def ocean(request):
+    style_file = 'css/ocean.css'
+
+    response = redirect("/marupik/main")
+    response.set_cookie('theme', style_file)
+    return response
+
+def space(request):
+    style_file = 'css/space.css'
+
+    response = redirect("/marupik/main")
+    response.set_cookie('theme', style_file)
+    return response
 
 def dark_theme(request):
     style_file = 'css/dark1.css'

@@ -26,18 +26,13 @@
 						<div class="profile">
 							<form method="POST"  enctype="multipart/form-data" class="add_something" style="margin-top: 10px">
 								{% csrf_token %}
-
-								<div class="image_div">
-									<img src="{{image}}" width="100%">
-								</div>
-
-								<p>{{ news_form.image }}</p>
+								<p>{{ article_form.image }}</p>
 								
-								<p>Заголовок новости:</p>
-								<p>{{ news_form.title }}</p>
+								<p>Название статьи:</p>
+								<p>{{ article_form.title }}</p>
 
-								<p>Текст новости:</p>
-								<p>{{ news_form.text }}</p>
+								<p>Текст статьи:</p>
+								<p>{{ article_form.text }}</p>
 								
 								<button type="submit" class="button" style="float: right;">Сохранить изменения</button>
 							</form>
