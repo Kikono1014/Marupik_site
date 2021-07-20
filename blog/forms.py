@@ -31,6 +31,10 @@ class DeleteArticleForm(forms.ModelForm):
         model = Article
         fields = []
 
+class DeleteCityForm(forms.ModelForm):
+    class Meta:
+        model = City
+        fields = []
 
 class EditNewsCommentForm(forms.ModelForm):
     class Meta:
@@ -43,11 +47,6 @@ class DeleteNewsCommentForm(forms.ModelForm):
         model = NewsComment
         fields = []
 
-
-class NewsArticleForm(forms.ModelForm):
-    class Meta:
-        model = ArticleComment
-        fields = ('body',)
 
 
 class AddArticleForm(forms.ModelForm):
@@ -106,6 +105,7 @@ class Add_citeForm(forms.ModelForm):
             'title',
             'text',
             'smol_text',
+            'status',
             'contact_url',
             'mayor'
         )

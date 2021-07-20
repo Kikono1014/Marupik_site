@@ -27,6 +27,7 @@ from .forms import (
     EditArticleCommentForm,
     DeleteNewsForm,
     DeleteArticleForm,
+    DeleteCityForm,
 )
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
@@ -941,6 +942,7 @@ def show_one_city(request, city_id):
     city = get_object_or_404(City, pk=city_id)
     text = city.text.split("\r\n")
 
+    status = city.status
     author = city.author
     mayor = city.mayor
     user = request.user
@@ -969,6 +971,7 @@ def show_one_city(request, city_id):
         'islogin': islogin,
         'city': city,
         'text': text,
+        'status': status,
         'author': author,
         'mayor': mayor,
         'user': user,
@@ -1002,7 +1005,7 @@ def add_city(request):
         'header_img': header_img,
         'style_file': style_file
     }
-    return render(request, 'city/city/add_city_page.html', context)
+    return render(request, 'city/add_city_page.html', context)
 
 
 def edit_city(request, city_id):
@@ -1037,6 +1040,29 @@ def edit_city(request, city_id):
         'style_file': style_file
     }
     return render(request, 'city/edit_city_page.html', context)
+
+def delete_city(request, city_id):
+    islogin, header_img, style_file, news = get_info(request)
+    city_to_delete = get_object_or_404(City, id=city_id)
+    name = city_to_delete.author
+    if request.method == 'POST':
+        form = DeleteCityForm(request.POST, instance=city_to_delete)
+
+        if form.is_valid():
+            city_to_delete.delete()
+            return redirect(f"/marupik/news/")
+
+    else:
+        form = DeleteCityForm(instance=city_to_delete)
+
+    context = {
+        'islogin': islogin,
+        'form': form,
+        'name': name,
+        'header_img': header_img,
+        'style_file': style_file
+    }
+    return render(request, 'city/delete_city_page.html', context)
 
 
 # Форма регистрации

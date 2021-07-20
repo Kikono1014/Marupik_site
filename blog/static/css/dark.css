@@ -1,26 +1,24 @@
 body {
-	background: #000000 url(https://www.publicdomainpictures.net/pictures/320000/velka/kosmos-sterne-weltall-aurora-1579123774NIx.jpg) repeat scroll 0 0;
+	background-color: #333;
 }
-
-
 
 
 
 
 .footer {
-	background-color:#010101; 
-	background: -moz-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -webkit-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -o-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -ms-linear-gradient(top, #010101 0% ,#000000 100%);
+	background-color:#202020; 
+	background: -moz-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -webkit-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -o-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -ms-linear-gradient(top, #202020 0% ,#101010 100%);
 }
 
 .header {
-	background-color:#010101; 
-	background: -moz-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -webkit-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -o-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -ms-linear-gradient(top, #010101 0% ,#000000 100%);
+	background-color:#202020; 
+	background: -moz-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -webkit-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -o-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -ms-linear-gradient(top, #202020 0% ,#101010 100%);
 }
 
 
@@ -225,7 +223,6 @@ body {
 	background-color: #f2f2f2;
 	border-color: #000000; 
 }
-
 
 
 

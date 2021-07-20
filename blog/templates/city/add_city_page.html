@@ -25,11 +25,41 @@
 					<div class="content">
 						<div class="profile">
 							<form method="POST"  enctype="multipart/form-data" class="add_something" style="margin-top: 10px">
-
 								{% csrf_token %}
+
+								<p>Изображения для карусели, их добавить мэр города или его приблежённые:</p>
+
+								<div class="add_img">
+									<p>{{ city_form.image1 }}</p>
+									<p>{{ city_form.image2 }}</p>
+									<p>{{ city_form.image3 }}</p>
+									<p>{{ city_form.image4 }}</p>
+									<p>{{ city_form.image5 }}</p>
+								</div>
+
+								<p>Изображение на общей странице городов, его добавить мэр города или его приблежённые:</p>
+
+								<div class="add_img">
+									<p>{{ city_form.image }}</p>
+								</div>
 								
-								<p>Игнорируй добавление изображений, это сделает мэр города. Если нету сылки на дс города, добавь дс сервера.</p>
-								{{ city_form.as_p }}
+								<p>Название:</p>
+								<p>{{ city_form.title }}</p>
+
+								<p>Описание города, неограничено:</p>
+								<p>{{ city_form.text }}</p>
+
+								<p>Короткое описание города, желательно 300 символов, но потолок 400:</p>
+								<p>{{ city_form.smol_text }}</p>
+
+								<p>Статус города:</p>
+								<p>{{ city_form.status }}</p>
+
+								<p>Сылка на дискорд города, обязательно:</p>
+								<p>{{ city_form.contact_url }}</p>
+
+								<p>Мэр:</p>
+								<p>{{ city_form.mayor }}</p>
 								
 								<button type="submit" class="button" style="float: right;">Сохранить изменения</button>
 							</form>

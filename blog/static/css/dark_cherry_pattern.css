@@ -253,34 +253,26 @@ body {
 
 
 .add_something input {
-	height: 30px;
-	padding: 6px 12px;
-	font-size: 20px;
-	line-height: 1.3333333;
-	border-radius: 3px;
 	background-color: #b82c2c;
 	border-color: black;  
 	color: #ffffff;  
-	margin-right: 10px;
-	margin-left: 20px;
 }
 
 .add_something textarea {
-	width: 100%;
-	height: 300px;
-	padding: 6px 12px;
-	font-size: 20px;
-	line-height: 1.3333333;
-	border-radius: 3px;
 	background-color: #b82c2c;
 	border-color: black;  
 	color: #ffffff;
-	margin-right: 10px;
-	margin-left: 20px;
-
 }
 
+.add_something select {
+	background-color: #b82c2c;
+	border-color: black;  
+	color: #ffffff;
+}
 
+.add_something p {
+    color: #ffffff;
+}
 
 
 

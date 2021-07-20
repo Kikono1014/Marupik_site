@@ -134,6 +134,15 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 class City(models.Model):
+    status1 = 'Открыт'
+    status2 = 'Закрыт'
+    status3 = 'Не функционирует'
+    STATUS = [
+        (status1, 'Открыт'),
+        (status2, 'Закрыт'),
+        (status3, 'Не функционирует'),
+    ]
+
     image = models.ImageField(
         default="city/image/default/default.png",
         upload_to='city/image/',
@@ -179,6 +188,7 @@ class City(models.Model):
     text = models.TextField(
         default="Информация от мэра города не поступила."
     )
+    status = models.CharField(max_length=17, choices=STATUS, default=status1)
     contact_url = models.URLField()
     active = models.BooleanField(default=True)
     author = models.CharField(max_length=100, default="ananist")

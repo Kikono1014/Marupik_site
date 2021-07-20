@@ -33,15 +33,21 @@
 					<a href="#"><img src="{{city.image5.url}}" id="item-5" /></a>
 				</div>
 
-				<div class="text">
+				<p>Этот город {{status}}</p>
+
+				<div class="text" style="margin-bottom: 50px;">
 					{% for line in text %}
 						<p>{{line}}</p>
 					{% endfor %}
 				</div>
-				<a href="{{city.contact_url}}" style="float: right;">Отправить заявку на вступление.</a>
-				{% if city.author == user.username or user.username == mayor or user.profile.admin == True %}
-					<a class="button" style="float:left;" href="{%url 'edit_one_city' city_id=city.pk%}">Редактировать</a>
-				{% endif %}
+
+				<a href="{{city.contact_url}}">Отправить заявку на вступление.</a>
+				<div class="buttons" style="margin-top: 50px;">
+					{% if city.author == user.username or user.username == mayor or user.profile.admin == True %}
+						<a class="button" style="float:left;" href="{%url 'edit_one_city' city_id=city.pk%}">Редактировать</a>
+						<a class="button" style="float:right;" href="{%url 'city_delete' city_id=city.pk%}">Удалить</a>
+					{% endif %}
+				</div>
 			</div>
 			
 	</div>

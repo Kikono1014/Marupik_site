@@ -1,26 +1,24 @@
 body {
-	background: #000000 url(https://www.publicdomainpictures.net/pictures/320000/velka/kosmos-sterne-weltall-aurora-1579123774NIx.jpg) repeat scroll 0 0;
+	background-color: #ffffff;
 }
-
-
 
 
 
 
 .footer {
-	background-color:#010101; 
-	background: -moz-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -webkit-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -o-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -ms-linear-gradient(top, #010101 0% ,#000000 100%);
+	background-color:#202020; 
+	background: -moz-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -webkit-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -o-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -ms-linear-gradient(top, #202020 0% ,#101010 100%);
 }
 
 .header {
-	background-color:#010101; 
-	background: -moz-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -webkit-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -o-linear-gradient(top, #010101 0%, #000000 100%); 
-	background: -ms-linear-gradient(top, #010101 0% ,#000000 100%);
+	background-color:#202020; 
+	background: -moz-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -webkit-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -o-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -ms-linear-gradient(top, #202020 0% ,#101010 100%);
 }
 
 
@@ -152,21 +150,21 @@ body {
 
 
  .normal a {
-	color: #ffffff;
+	color: #363636;
  }
 
  .active a {
-	color: #363636;
+	color: #ffffff;
  }
 
 
 .active {
-	background-color:#f2f2f2; 
-	background: -moz-linear-gradient(top, #f2f2f2 0%, #e3e3e3 100%); 
-	background: -webkit-linear-gradient(top, #f2f2f2 0%, #e3e3e3 100%); 
-	background: -o-linear-gradient(top, #f2f2f2 0%, #e3e3e3 100%); 
-	background: -ms-linear-gradient(top, #f2f2f2 0% ,#e3e3e3 100%); 
-	background: linear-gradient(top, #f2f2f2 0% ,#e3e3e3 100%);  
+	background-color:#202020; 
+	background: -moz-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -webkit-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -o-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -ms-linear-gradient(top, #202020 0% ,#101010 100%); 
+	background: linear-gradient(top, #202020 0% ,#101010 100%); 
 }
 
 
@@ -190,7 +188,7 @@ body {
 
 
 .profile .add_image #id_user_image{
-	color: #ffffff;
+	color: #000000;
 }
 
 .change_info textarea {
@@ -228,9 +226,8 @@ body {
 
 
 
-
 .add_something p{
-	color: #ffffff;
+	color: #000000;
 }
 
 
@@ -243,18 +240,18 @@ body {
 
 
 .city h1 {
-	color:#e3e3e3;
+	color:#000000;
 	
 }
 
 .one_city h1 {
-	color:#363636; 
-	background-color:#f2f2f2; 
-	background: -moz-linear-gradient(top, #f2f2f2 0%, #e3e3e3 100%); 
-	background: -webkit-linear-gradient(top, #f2f2f2 0%, #e3e3e3 100%); 
-	background: -o-linear-gradient(top, #f2f2f2 0%, #e3e3e3 100%); 
-	background: -ms-linear-gradient(top, #f2f2f2 0% ,#e3e3e3 100%); 
-	background: linear-gradient(top, #f2f2f2 0% ,#e3e3e3 100%);  
+	color:#ffffff; 
+	background-color:#202020; 
+	background: -moz-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -webkit-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -o-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -ms-linear-gradient(top, #202020 0% ,#101010 100%); 
+	background: linear-gradient(top, #202020 0% ,#101010 100%);  
 	
 }
 
@@ -266,7 +263,7 @@ body {
 /*Коментарии*/
 
 .add {
-	color: #f2f2f2;
+	color: #000000;
 }
 
 
@@ -283,7 +280,7 @@ body {
 
 .main .main_title {
 	font-family: Verdana;
-	color: #e3e3e3;
+	color: #000000;
 
 }
 
@@ -301,23 +298,23 @@ body {
 
 a {
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-	color: #9ec6ff;
+	color: #039be5;
 }
 
 p {
 	font-family:Trebuchet MS;
-	color: #ffffff;
+	color: #000000;
 }
 
 
 .title {
 	font-family: Verdana;
-	color:#363636; 
-	background-color:#f2f2f2; 
-	background: -moz-linear-gradient(top, #f2f2f2 0%, #e3e3e3 100%); 
-	background: -webkit-linear-gradient(top, #f2f2f2 0%, #e3e3e3 100%); 
-	background: -o-linear-gradient(top, #f2f2f2 0%, #e3e3e3 100%); 
-	background: -ms-linear-gradient(top, #f2f2f2 0% ,#e3e3e3 100%); 
-	background: linear-gradient(top, #f2f2f2 0% ,#e3e3e3 100%);  
+	color:#ffffff; 
+	background-color:#202020; 
+	background: -moz-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -webkit-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -o-linear-gradient(top, #202020 0%, #101010 100%); 
+	background: -ms-linear-gradient(top, #202020 0% ,#101010 100%); 
+	background: linear-gradient(top, #202020 0% ,#101010 100%);  
 }
 
