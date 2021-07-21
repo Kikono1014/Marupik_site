@@ -12,6 +12,7 @@ from .models import (
 from .forms import (
     UserForm,
     ProfileForm,
+    ChangeProfileRoleForm,
     Add_nuwsForm,
     AddArticleForm,
     Add_citeForm,
@@ -734,7 +735,6 @@ def upgrade_profile(request):
 
     user_image = request.user.profile.user_image.url
 
-    print(profile_form)
     context = {
         'newses': news,
         'user_image': user_image,
@@ -842,6 +842,10 @@ def another_profile(request, user_id):
     comments = user.comments.filter(active=True)
     if request.method == 'POST':
         comment_form = UserCommentForm(data=request.POST)
+        profile_form = ChangeProfileRoleForm(
+            request.POST,
+            instance=user.profile
+        )
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
             new_comment.name = request.user.username
@@ -851,8 +855,19 @@ def another_profile(request, user_id):
             new_comment.userid = request.user.pk
             new_comment.save()
             return redirect(f"/profile/{user_id}/")
+        else:
+            pass
+
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect(f"/profile/{user_id}/")
+        else:
+            pass
+            
     else:
         comment_form = UserCommentForm()
+        profile_form = ChangeProfileRoleForm(instance=user.profile)
+
 
     context = {
         'newses': news,
@@ -864,6 +879,7 @@ def another_profile(request, user_id):
         'admin': admin,
         'comments': comments,
         'comment_form': comment_form,
+        'profile_form': profile_form,
         'user': user,
         'role_color': role_color,
         'header_img': header_img,

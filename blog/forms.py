@@ -90,10 +90,14 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
 
-        
-        fields = ('user_image', 'info', 'role',)
+        fields = ('user_image', 'info',)
 
 
+class ChangeProfileRoleForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+
+        fields = ('role',)
 
 
 class Add_citeForm(forms.ModelForm):

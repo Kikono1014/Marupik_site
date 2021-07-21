@@ -32,8 +32,27 @@
 							<p>{{ info }}</p>
 						{% endfor %}
 					</div>
-					<div class="profile_div role"><p>Роль на сайте: {{ role }} {% if admin %}+ Он ещё и админ{% endif %}</p></div>
+
 					
+
+					<div class="profile_div role"><p>Роль на сайте: {{ role }} {% if admin %}+ Он ещё и админ{% endif %}</p></div>
+
+					{% if admin or 'Президент' in role %}
+						<form method="POST" class="register_and_login" style="margin-top: 10px">
+							{% csrf_token %}
+							<div class="profile_div roles">
+								{% for choice in profile_form.role %}
+									<div>
+								        <p>{{ choice }}</p>
+							        </div>
+							    {% endfor %}
+						    </div>
+						
+						<button type="submit" class="button" style="float: right;">Сохранить изменения</button>
+						</form>
+					{% endif %}
+
+
 					<div class="comments_block">
 
 					<h1 class="title">Коментарии:</h1>
