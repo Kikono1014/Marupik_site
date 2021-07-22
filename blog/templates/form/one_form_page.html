@@ -27,7 +27,11 @@
 					<p> Ник на сайте: {{form.site_username}}</p>
 					<img src="{{form.donation_image.url}}">
 					<p> Ник в донате: {{form.donation_username}}</p>
-					<p> Токен: {{form.free_token}}</p>
+					{% if form.free_token == '29Rg49DLys' %}
+						<p style="color: rgb(0, 200, 0)"> Токен: {{form.free_token}}</p>
+					{% else %}
+						<p style="color: rgb(200, 0, 0)"> Токен: {{form.free_token}}</p>
+					{% endif %}
 					<p> В дискорде: {{form.contact}}</p>
 
 					<p> Описание:</p>
