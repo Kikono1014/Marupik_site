@@ -1,4 +1,4 @@
 django
 requests
 Pillow
-MultiSelectField
+django-multiselectfield
