@@ -189,7 +189,7 @@ def show_main(request):  # отображение главной страниц�
     if('main_image' in request.COOKIES):
         main_image = request.COOKIES['main_image']
     else:
-        main_image = 'css/main2.css' 
+        main_image = 'image/main2.png' 
 
     context = {  # контекст для шаблона
            'newses': news,
