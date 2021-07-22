@@ -186,11 +186,17 @@ def get_style(request):  # изменение темы
 def show_main(request):  # отображение главной страницы
     islogin, header_img, style_file, news = get_info(request)
 
+    if('main_image' in request.COOKIES):
+        main_image = request.COOKIES['main_image']
+    else:
+        main_image = 'css/main2.css' 
+
     context = {  # контекст для шаблона
            'newses': news,
            'islogin': islogin,
            'header_img': header_img,
-           'style_file': style_file
+           'style_file': style_file,
+           'main_image': main_image,
           }
     return render(
         request,
@@ -1208,6 +1214,11 @@ def change_theme(request, theme_name):
     style_file = f'css/{theme_name}.css'
 
     response = redirect("/marupik/main")
+    if theme_name == 'dark' or theme_name == 'space':
+        response.set_cookie('main_image', 'image/main3.png')
+    else:
+        response.set_cookie('main_image', 'image/main1.png')
+
     response.set_cookie('theme', style_file)
     return response
 
