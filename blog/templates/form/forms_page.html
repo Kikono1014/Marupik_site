@@ -21,9 +21,9 @@
 
 			<div class="content">
 				
-				{% if user.profile.registered or user.profile.admin %}
+				{% if user.profile.registered or user.profile.admin or 'ФБР' in user.profile.role %}
 					{% for form in forms %}
-						{% if user.profile.admin %}
+						{% if user.profile.admin or 'ФБР' in user.profile.role %}
 							<div class="form">
 								<p class="date"> Ждёт c {{form.create_date}}</p>
 								<p> Ник в майнкрафте: {{form.minecraft_nickname}}</p>

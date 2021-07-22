@@ -37,7 +37,7 @@
 
 					<div class="profile_div role"><p>Роль на сайте: {{ role }} {% if admin %}+ Он ещё и админ{% endif %}</p></div>
 
-					{% if admin or 'Президент' in role %}
+					{% if admin or 'Представитель города' in role %}
 						<form method="POST" class="register_and_login" style="margin-top: 10px">
 							{% csrf_token %}
 							<div class="profile_div roles">
@@ -76,7 +76,7 @@
 								<div class="comment" id="comment" style="min-height: 350px;">
 									<div class="info">
 										<a href="{%url 'another_profile' user_id=comment.userid%}"><div class="image_div"><img src="{{comment.image}}" width="100%"></div></a>
-										{% if 'Президент' in comment.role %}
+										{% if 'Представитель города' in comment.role %}
 											<p style="; text-align: center; font-size: 20px;"><a href="{%url 'another_profile' user_id=comment.userid%}" class="username" style="color: rgb(200, 0, 200)"> {{ comment.name }} </a></p>
 										{% elif 'ФБР' in comment.role or 'Глава ФБР' in comment.role %}
 											<p style="; text-align: center; font-size: 20px;"><a href="{%url 'another_profile' user_id=comment.userid%}" class="username" style="color: blue}">  {{ comment.name }} </a></p>

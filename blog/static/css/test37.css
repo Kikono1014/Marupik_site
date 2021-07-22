@@ -1,6 +1,8 @@
 
-html, body {margin: 0 0 0 0; height: 100%; width: 100%}
-
+html, body {
+	margin: 0 0 0 0;
+	width: 100%;
+}
 
 
 @media screen and (min-width:100px) and (max-width:1263px) {
@@ -483,7 +485,6 @@ html, body {margin: 0 0 0 0; height: 100%; width: 100%}
 
 .articles {
 	width: 96%;
-	min-height: 
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
@@ -495,8 +496,8 @@ html, body {margin: 0 0 0 0; height: 100%; width: 100%}
 	width: 46%;
 	height: auto;
 	min-height: 500px;
-	margin-left: 20px;
-  	margin-right: 20px;
+	margin-left: 10px;
+  	margin-right: 10px;
 	margin-bottom: 20px;
 	margin-top: 50px;
 	float: left;

@@ -784,7 +784,7 @@ def profile(request):
         your_city_name = None
         your_city_id = None
 
-    if 'Президент' in role:
+    if 'Представитель города' in role:
         role_color = "rgb(200, 0, 200)"
     elif 'ФБР' in role or 'Глава ФБР' in role:
         role_color = "blue"
@@ -826,7 +826,7 @@ def another_profile(request, user_id):
     role = user.profile.role
     admin = user.profile.admin
 
-    if 'Президент' in role:
+    if 'Представитель города' in role:
         role_color = "rgb(200, 0, 200)"
     elif 'ФБР' in role or 'Глава ФБР' in role:
         role_color = "blue"
