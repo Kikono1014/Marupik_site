@@ -13,7 +13,7 @@
 
 	<body>
 
-		{% if name == request.user.username %}
+		{% if name == request.user.username or request.user.profile.admin %}
 
 			<div class="wrapper">
 

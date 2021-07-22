@@ -40,9 +40,10 @@ urlpatterns = [
             re_path(r'^cities*',views.show_cities),
 
             
-            path('form/<int:form_id>/',views.show_one_form,  name='one_form'),
+            
             path('form/add/', views.add_form),
             path('form/edit/<int:form_id>/', views.edit_form,  name='edit_one_form'),
+            path('form/<int:form_id>/',views.show_one_form,  name='one_form'),
             re_path(r'^forms*',views.show_forms),
 
             
